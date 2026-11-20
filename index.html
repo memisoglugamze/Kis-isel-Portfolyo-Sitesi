@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#051F20">
+<link rel="stylesheet" href="colors.css">
+<title>Gamze İbrahimağaoğlu — BI &amp; Data Warehouse Developer</title>
+<meta name="description" content="Gamze İbrahimağaoğlu: Business Intelligence ve Data Warehouse Developer. Veri modelleme, ETL, veri kalitesi ve analitik raporlama.">
+<style>
+/* OD-LAYOUT-PRIMITIVES v1 */
+@layer od-layout {
+  [hidden]:not([hidden="until-found" i]) { display: none !important; }
+  dialog:not([open]) { display: none !important; }
+  .od-stack { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-grid { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+  .od-icon { display: inline-block; inline-size: var(--od-icon-size, 1em); block-size: var(--od-icon-size, 1em); flex: none; }
+  .od-nowrap { white-space: nowrap; }
+  .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; -webkit-line-clamp: 3; }
+}
+:root [hidden]:where(:not([hidden="until-found" i])) { display: none; }
+/* /OD-LAYOUT-PRIMITIVES v1 */
+
+:root {
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-h2: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  --fs-h1: clamp(2.5rem, 1.5rem + 5vw, 5rem);
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+  --radius: 8px;
+  --dur-fast: 200ms;
+  --dur-mid: 300ms;
+  --header-h: 72px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + var(--sp-4)); }
+body { margin: 0; background: var(--c-950); color: var(--c-100); font: 400 var(--fs-body)/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
+img, svg { max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+:focus-visible { outline: 3px solid var(--c-400); outline-offset: 3px; border-radius: 4px; }
+.skip { position: absolute; left: var(--sp-4); top: -80px; background: var(--c-100); color: var(--c-950); padding: var(--sp-3) var(--sp-4); border-radius: var(--radius); z-index: 100; text-decoration: none; font-weight: 600; }
+.skip:focus { top: var(--sp-4); }
+
+.wrap { width: min(1120px, 100% - 2 * var(--sp-5)); margin-inline: auto; }
+section { padding-block: var(--sp-9); }
+.eyebrow { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: var(--sp-3); }
+.sec-head { margin-bottom: var(--sp-7); max-width: 40rem; }
+.sec-head h2 { font-size: var(--fs-h2); }
+.sec-head p { color: var(--text-muted); margin-top: var(--sp-3); }
+
+/* header */
+header.site { position: fixed; inset: 0 0 auto 0; height: var(--header-h); z-index: 50; background: var(--c-950); border-bottom: 1px solid var(--c-800); }
+header.site .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
+.logo { font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.logo b { color: var(--c-400); font-weight: 600; }
+nav.main ul { display: flex; gap: var(--sp-2); }
+nav.main a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: var(--sp-4); border-radius: var(--radius); text-decoration: none; color: var(--text-muted); font-size: var(--fs-small); font-weight: 500; transition: background var(--dur-fast) ease-out, color var(--dur-fast) ease-out; }
+nav.main a:hover { background: var(--c-800); color: var(--c-100); }
+nav.main a[aria-current="true"] { background: var(--c-800); color: var(--c-100); box-shadow: inset 0 -2px 0 var(--c-400); }
+.menu-btn { display: none; min-width: 44px; min-height: 44px; background: transparent; color: var(--c-100); border: 1px solid var(--c-700); border-radius: var(--radius); cursor: pointer; align-items: center; justify-content: center; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 48px; padding-inline: var(--sp-6); border-radius: var(--radius); font: 600 var(--fs-body)/1 var(--font-body); text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background var(--dur-fast) ease-out, transform var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
+.btn-primary { background: var(--c-400); color: var(--c-950); }
+.btn-primary:hover { background: var(--c-100); }
+.btn-ghost { background: transparent; color: var(--c-100); border-color: var(--c-700); }
+.btn-ghost:hover { border-color: var(--c-400); background: var(--c-800); }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: 0.6; cursor: progress; }
+
+/* hero */
+.hero { padding-top: calc(var(--header-h) + var(--sp-9)); background: var(--c-950); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-8); align-items: center; }
+.hero h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-5); }
+.hero h1 span { color: var(--c-400); }
+.hero .lead { color: var(--text-muted); font-size: 1.25rem; max-width: 36rem; margin-bottom: var(--sp-6); }
+.hero .actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.portrait { aspect-ratio: 4 / 5; width: 100%; max-width: 380px; margin-inline: auto; background: var(--c-900); border: 1px solid var(--c-700); border-radius: var(--radius); display: grid; place-items: center; text-align: center; padding: var(--sp-5); color: var(--c-400); }
+.portrait svg { width: 96px; height: 96px; display: block; margin: 0 auto var(--sp-3); }
+.portrait-img { display: block; width: 100%; max-width: 380px; height: auto; margin-inline: auto; border: 1px solid var(--c-700); border-radius: var(--radius); }
+.portrait small { display: block; color: var(--text-muted); font-size: var(--fs-small); }
+
+/* about */
+.about { background: var(--c-900); }
+.about-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--sp-8); }
+.about-text { display: grid; gap: var(--sp-4); color: var(--c-100); max-width: 40rem; }
+.facts { display: grid; gap: var(--sp-4); align-content: start; }
+.fact { background: var(--c-800); border-radius: var(--radius); padding: var(--sp-4) var(--sp-5); }
+.fact dt { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; margin-bottom: var(--sp-1); }
+.fact dd { margin: 0; }
+.facts { margin: 0; }
+
+/* skills */
+.skill-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5); }
+.skill-group { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5); }
+.skill-group h3 { font-size: 1.375rem; margin-bottom: var(--sp-4); }
+.tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.tag { display: inline-block; padding: var(--sp-1) var(--sp-3); background: var(--c-800); color: var(--c-100); border: 1px solid var(--c-700); border-radius: 999px; font-size: var(--fs-small); }
+
+/* timeline */
+.experience { background: var(--c-900); }
+.tl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8); }
+.tl h3 { font-size: 1.5rem; margin-bottom: var(--sp-5); }
+.tl ol { list-style: none; margin: 0; padding: 0 0 0 var(--sp-5); border-left: 2px solid var(--c-700); display: grid; gap: var(--sp-6); }
+.tl li { position: relative; }
+.tl li::before { content: ""; position: absolute; left: calc(-1 * var(--sp-5) - 7px); top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--c-400); border: 2px solid var(--c-900); }
+.tl time { display: block; color: var(--c-400); font-size: var(--fs-small); font-weight: 600; }
+.tl h4 { margin: var(--sp-1) 0; font-size: 1.125rem; font-weight: 600; }
+.tl p { color: var(--text-muted); }
+
+/* projects */
+.filters { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-6); }
+.filter { min-height: 44px; padding-inline: var(--sp-5); background: transparent; color: var(--c-100); border: 1px solid var(--c-700); border-radius: 999px; font: 500 var(--fs-small)/1 var(--font-body); cursor: pointer; transition: background var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
+.filter:hover { border-color: var(--c-400); background: var(--c-800); }
+.filter[aria-pressed="true"] { background: var(--c-400); color: var(--c-950); border-color: var(--c-400); }
+.proj-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5); }
+.card { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: border-color var(--dur-fast) ease-out, transform var(--dur-fast) ease-out; }
+.card:hover { border-color: var(--c-400); transform: translateY(-2px); }
+.card .thumb { aspect-ratio: 16 / 10; background: var(--c-800); display: grid; place-items: center; color: var(--c-400); font-family: var(--font-display); font-size: 2rem; border-bottom: 1px solid var(--c-700); }
+.card .body { padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-3); flex: 1; }
+.card h3 { font-size: 1.375rem; }
+.card p { color: var(--text-muted); }
+.card .cat { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; }
+.card .link { margin-top: auto; display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; color: var(--c-100); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-400); }
+.empty { color: var(--text-muted); padding: var(--sp-6); border: 1px dashed var(--c-700); border-radius: var(--radius); }
+
+/* professional polish */
+main { counter-reset: sec; }
+section[id]:not(.hero) .eyebrow { display: flex; align-items: center; gap: var(--sp-3); }
+section[id]:not(.hero) .eyebrow::before { counter-increment: sec; content: "0" counter(sec); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+section[id]:not(.hero) .eyebrow::after { content: ""; width: var(--sp-7); height: 1px; background: var(--c-700); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); margin-top: var(--sp-7); padding-top: var(--sp-5); border-top: 1px solid var(--c-800); }
+.hero-meta div { display: grid; gap: var(--sp-1); }
+.hero-meta dt { color: var(--text-muted); font-size: var(--fs-small); }
+.hero-meta dd { margin: 0; font-weight: 600; }
+.hero-meta { margin-block-end: 0; }
+.status-pill { display: inline-flex; align-items: center; gap: var(--sp-2); padding: var(--sp-1) var(--sp-4); border: 1px solid var(--c-700); border-radius: 999px; color: var(--c-100); font-size: var(--fs-small); margin-bottom: var(--sp-5); }
+.status-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c-400); }
+.nav-cta { background: var(--c-400) !important; color: var(--c-950) !important; font-weight: 600 !important; }
+.nav-cta:hover { background: var(--c-100) !important; }
+
+/* collaborate */
+.collab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-5); }
+.collab-card { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-3); transition: border-color var(--dur-fast) ease-out; }
+.collab-card:hover { border-color: var(--c-400); }
+.collab-card h3 { font-size: 1.375rem; }
+.collab-card p { color: var(--text-muted); }
+.collab-card ul { display: grid; gap: var(--sp-1); color: var(--c-100); font-size: var(--fs-small); }
+.collab-card li::before { content: "– "; color: var(--c-400); }
+.collab-card .btn { margin-top: auto; align-self: flex-start; min-height: 44px; padding-inline: var(--sp-5); }
+.steps { counter-reset: step; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-5); margin-top: var(--sp-8); padding-top: var(--sp-6); border-top: 1px solid var(--c-800); }
+.steps li { counter-increment: step; display: grid; gap: var(--sp-2); align-content: start; }
+.steps li::before { content: "0" counter(step); color: var(--c-400); font: 600 1.5rem/1 var(--font-display); }
+.steps b { font-weight: 600; }
+.steps span { color: var(--text-muted); font-size: var(--fs-small); }
+.collab-cta { margin-top: var(--sp-7); display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+.collab-cta p { color: var(--text-muted); flex-basis: 100%; }
+select { width: 100%; background: var(--c-950); color: var(--c-100); border: 1px solid var(--c-700); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); font: inherit; min-height: 48px; }
+select:hover { border-color: var(--c-400); }
+
+/* contact */
+.contact { background: var(--c-900); }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: var(--sp-8); }
+.contact-info { display: grid; gap: var(--sp-4); align-content: start; }
+.contact-info p { color: var(--text-muted); }
+.social { display: grid; gap: var(--sp-2); margin-top: var(--sp-3); }
+.social a { display: flex; align-items: center; min-height: 44px; gap: var(--sp-3); text-decoration: none; color: var(--c-100); border-bottom: 1px solid var(--c-700); }
+.social a:hover { color: var(--c-400); }
+form { display: grid; gap: var(--sp-5); }
+.field { display: grid; gap: var(--sp-2); }
+label { font-weight: 600; font-size: var(--fs-small); }
+label .req { color: var(--c-400); }
+input, textarea { width: 100%; background: var(--c-950); color: var(--c-100); border: 1px solid var(--c-700); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); font: inherit; min-height: 48px; transition: border-color var(--dur-fast) ease-out; }
+textarea { min-height: 144px; resize: vertical; }
+input:hover, textarea:hover { border-color: var(--c-400); }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--danger); }
+.err { color: var(--danger); font-size: var(--fs-small); }
+.err::before { content: "Hata: "; font-weight: 700; }
+.status { padding: var(--sp-4); border-radius: var(--radius); background: var(--c-800); border: 1px solid var(--c-400); }
+
+footer.site { padding-block: var(--sp-6); border-top: 1px solid var(--c-800); color: var(--text-muted); font-size: var(--fs-small); }
+footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-3); }
+
+/* entrance: only transform/opacity */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-mid) ease-out, transform var(--dur-mid) ease-out; }
+.reveal.in { opacity: 1; transform: none; }
+.no-js .reveal { opacity: 1; transform: none; }
+
+@media (max-width: 1023px) {
+  .skill-grid, .proj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-grid, .about-grid, .tl-grid, .contact-grid { grid-template-columns: minmax(0, 1fr); gap: var(--sp-7); }
+  section { padding-block: var(--sp-8); }
+}
+@media (max-width: 767px) {
+  .menu-btn { display: inline-flex; }
+  nav.main { position: absolute; top: var(--header-h); left: 0; right: 0; background: var(--c-950); border-bottom: 1px solid var(--c-800); padding: var(--sp-3) var(--sp-5) var(--sp-5); }
+  nav.main ul { flex-direction: column; }
+  nav.main a { width: 100%; }
+  .skill-grid, .proj-grid, .collab-grid, .steps { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding-top: calc(var(--header-h) + var(--sp-7)); }
+  .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body class="no-js">
+<a class="skip" href="#main">İçeriğe geç</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Ana sayfa">Gamze<b>.</b>İbrahimağaoğlu</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menüyü aç">
+      <svg class="od-icon" style="--od-icon-size:24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="main" id="nav" aria-label="Ana gezinme">
+      <ul>
+        <li><a href="#about">Hakkımda</a></li>
+        <li><a href="#skills">Yetenekler</a></li>
+        <li><a href="#experience">Deneyim</a></li>
+        <li><a href="#projects">Projeler</a></li>
+        <li><a href="#collaborate">Birlikte Çalışalım</a></li>
+        <li><a href="#contact">İletişim</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="status-pill">Yeni iş birliklerine açığım</p>
+        <p class="eyebrow">Business Intelligence &amp; Data Warehouse Developer</p>
+        <h1>Merhaba, ben <span>Gamze İbrahimağaoğlu</span>.</h1>
+        <p class="lead">Veriyi yalnızca raporlamıyor, anlamlandırıp öngörüye dönüştürüyorum. Finans kökenli altyapım ve 8+ yıllık kurumsal deneyimimle sağlam, ölçeklenebilir veri ambarı çözümleri kuruyorum.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#projects">Çalışma Alanlarım</a>
+          <a class="btn btn-ghost" href="#collaborate">Birlikte Çalışalım</a>
+        </div>
+        <dl class="hero-meta">
+          <div><dt>Konum</dt><dd>İstanbul</dd></div>
+          <div><dt>Şu an</dt><dd>Digiturk</dd></div>
+          <div><dt>Temel araçlar</dt><dd>SQL · ODI · Power BI</dd></div>
+          <div><dt>Deneyim</dt><dd>8+ yıl</dd></div>
+        </dl>
+      </div>
+      <img class="portrait-img" src="shared-image.jpeg" width="1500" height="2000" alt="Gamze İbrahimağaoğlu'nun profil fotoğrafı">
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <p class="eyebrow">Hakkımda</p>
+        <div class="sec-head"><h2>Kısa bir tanışma</h2></div>
+        <div class="about-text">
+          <p>Digiturk’te veri modelleme, ETL süreçleri (ODI), veri kalitesi ve kontrol mekanizmaları, yüksek hacimli veri performans optimizasyonu ve analitik raporlama altyapıları üzerinde çalışıyorum. Analitik ve yapay zekâ projeleri için güvenilir veri zeminleri oluşturuyorum.</p>
+          <p>Finansal kontrol ve iç denetim geçmişim sayesinde analitik çıktıları iş etkisi, risk ve finansal karşılık açısından değerlendirip karar vericiler için anlamlı içgörülere dönüştürebiliyorum. BI, ileri analitik ve yapay zekânın kesiştiği alanda değer üreten ekiplerde yer almayı hedefliyorum.</p>
+        </div>
+      </div>
+      <dl class="facts reveal">
+        <div class="fact"><dt>Konum</dt><dd>İstanbul, Türkiye</dd></div>
+        <div class="fact"><dt>Uzmanlık</dt><dd>Veri ambarı, ETL, BI</dd></div>
+        <div class="fact"><dt>Şu an</dt><dd>Digiturk · BI &amp; DWH Developer</dd></div>
+        <div class="fact"><dt>Eğitim</dt><dd>Yüksek Lisans, Yönetim Bilişim Sistemleri</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Yetenekler</p>
+        <h2>Araçlarım ve becerilerim</h2>
+        <p>Veri mühendisliğinden analitik raporlamaya uzanan temel yetkinliklerim.</p>
+      </div>
+      <div class="skill-grid">
+        <article class="skill-group reveal">
+          <h3>Uzmanlık</h3>
+          <ul class="tags"><li class="tag">Veri Modelleme</li><li class="tag">Analytics-Ready DWH</li><li class="tag">Veri Kalitesi &amp; Anomali Tespiti</li><li class="tag">Kök Neden Analizi</li></ul>
+        </article>
+        <article class="skill-group reveal">
+          <h3>Araçlar</h3>
+          <ul class="tags"><li class="tag">SQL</li><li class="tag">Veritabanları</li><li class="tag">Power BI</li><li class="tag">ETL / Oracle Data Integrator (ODI)</li></ul>
+        </article>
+        <article class="skill-group reveal">
+          <h3>Yönetişim &amp; Finans</h3>
+          <ul class="tags"><li class="tag">Veri Yönetişimi</li><li class="tag">Veri Güvenliği &amp; Yetkilendirme</li><li class="tag">Finansal Kontrol &amp; İç Denetim</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Deneyim ve eğitim</p>
+        <h2>Yolculuğum</h2>
+      </div>
+      <div class="tl-grid">
+        <div class="tl reveal">
+          <h3>Deneyim</h3>
+          <ol>
+            <li><time>Mar 2023 – Günümüz</time><h4>Business Intelligence &amp; Data Warehouse Developer · Digiturk</h4><p>Veri modelleme, ODI ile ETL, veri temizleme ve kalite kontrolü, performans optimizasyonu, raporlama, dokümantasyon ve veri güvenliği.</p></li>
+            <li><time>Nis 2021 – Mar 2023</time><h4>Financial Control Specialist · Digiturk</h4><p>Finansal kontrol süreçleri.</p></li>
+            <li><time>Ara 2019 – Nis 2021</time><h4>Internal Control Assistant Specialist · Turgut Aydın Holding</h4><p>İç kontrol süreçleri.</p></li>
+            <li><time>Şub 2018 – Ara 2019</time><h4>Financial Control Assistant Specialist · Rossmann Türkiye</h4><p>Finansal kontrol destek çalışmaları.</p></li>
+          </ol>
+        </div>
+        <div class="tl reveal">
+          <h3>Eğitim</h3>
+          <ol>
+            <li><time>Şub 2022 – Haz 2023</time><h4>Yüksek Lisans, Yönetim Bilişim Sistemleri (MIS) · İstanbul Bilgi Üniversitesi</h4><p>Bilgi sistemleri ve yönetim odaklı lisansüstü eğitim.</p></li>
+            <li><time>2012 – 2017</time><h4>Lisans, İşletme · Karadeniz Teknik Üniversitesi</h4><p>İşletme temelli lisans eğitimi.</p></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Projeler</p>
+        <h2>Çalışma alanlarım</h2>
+      </div>
+      <div class="filters" role="group" aria-label="Çalışma alanı kategorisi">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">Tümü</button>
+        <button class="filter" type="button" data-filter="veri" aria-pressed="false">Veri Altyapısı</button>
+        <button class="filter" type="button" data-filter="analitik" aria-pressed="false">Analitik</button>
+        <button class="filter" type="button" data-filter="yonetisim" aria-pressed="false">Yönetişim</button>
+      </div>
+      <ul class="proj-grid" id="projGrid"></ul>
+      <p class="empty" id="projEmpty" hidden>Bu kategoride çalışma alanı yok. Başka bir kategori seçebilirsin.</p>
+    </div>
+  </section>
+
+  <section id="collaborate">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Birlikte çalışalım</p>
+        <h2>Veri altyapınızı birlikte güçlendirelim</h2>
+        <p>Aşağıdaki alanlarda destek verebilirim. Size uygun olanı seçin, mesaj formu konuyla birlikte hazır gelsin.</p>
+      </div>
+      <div class="collab-grid">
+        <article class="collab-card reveal">
+          <h3>Veri ambarı ve modelleme</h3>
+          <p>Analitik ve yapay zekâ çalışmalarına hazır, sürdürülebilir veri modelleri.</p>
+          <ul><li>Veri modeli ve DWH tasarımı</li><li>ETL / ODI veri hatları</li><li>SQL performans iyileştirme</li></ul>
+          <button class="btn btn-ghost" type="button" data-topic="Veri ambarı ve modelleme">Bu konuda yaz</button>
+        </article>
+        <article class="collab-card reveal">
+          <h3>BI ve raporlama</h3>
+          <p>Karar vericilerin güvenle kullanabileceği raporlama altyapıları.</p>
+          <ul><li>Power BI raporları</li><li>Analitik raporlama katmanı</li><li>Dokümantasyon</li></ul>
+          <button class="btn btn-ghost" type="button" data-topic="BI ve raporlama">Bu konuda yaz</button>
+        </article>
+        <article class="collab-card reveal">
+          <h3>Veri kalitesi ve yönetişim</h3>
+          <p>Verinin güvenilirliğini ve izlenebilirliğini artıran kontrol mekanizmaları.</p>
+          <ul><li>Veri temizleme ve anomali tespiti</li><li>Kök neden analizi</li><li>Veri güvenliği ve yetkilendirme</li></ul>
+          <button class="btn btn-ghost" type="button" data-topic="Veri kalitesi ve yönetişim">Bu konuda yaz</button>
+        </article>
+        <article class="collab-card reveal">
+          <h3>Finans ve kontrol odaklı analitik</h3>
+          <p>Analitik çıktıları iş etkisi, risk ve finansal karşılık açısından yorumlama.</p>
+          <ul><li>Finansal kontrol bakışı</li><li>İç denetim deneyimi</li><li>Risk odaklı değerlendirme</li></ul>
+          <button class="btn btn-ghost" type="button" data-topic="Finans ve kontrol odaklı analitik">Bu konuda yaz</button>
+        </article>
+      </div>
+      <ol class="steps reveal" aria-label="Çalışma süreci">
+        <li><b>Tanışma</b><span>İhtiyacı ve hedefi birlikte netleştiririz.</span></li>
+        <li><b>Kapsam</b><span>Çıktılar, veri kaynakları ve takvim belirlenir.</span></li>
+        <li><b>Uygulama</b><span>Düzenli paylaşımla geliştirme yapılır.</span></li>
+        <li><b>Teslim</b><span>Dokümantasyonla birlikte devredilir.</span></li>
+      </ol>
+      <div class="collab-cta reveal">
+        <a class="btn btn-primary" href="#contact" data-topic="">Görüşme talep et</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/gamze-ibrahimağaoğlu-794b13b6" target="_blank" rel="noopener noreferrer">LinkedIn’de bağlan</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-info reveal">
+        <p class="eyebrow">İletişim</p>
+        <h2 style="font-size:var(--fs-h2)">Bana ulaşın</h2>
+        <p>Veri, BI ve analitik üzerine konuşmak ya da iş birliği için bana yazabilirsin.</p>
+        <div class="social">
+          <a href="mailto:memisoglugamze@gmail.com">memisoglugamze@gmail.com</a>
+          <a href="https://www.linkedin.com/in/gamze-ibrahimağaoğlu-794b13b6" target="_blank" rel="noopener noreferrer">LinkedIn profilim</a>
+          <a href="https://github.com/memisoglugamze" target="_blank" rel="noopener noreferrer">github.com/memisoglugamze</a>
+        </div>
+      </div>
+      <form id="contactForm" novalidate class="reveal" aria-describedby="formStatus">
+        <div class="field">
+          <label for="name">Adın <span class="req" aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="nameErr">
+          <p class="err" id="nameErr" hidden></p>
+        </div>
+        <div class="field">
+          <label for="email">E-posta <span class="req" aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="emailErr">
+          <p class="err" id="emailErr" hidden></p>
+        </div>
+        <div class="field">
+          <label for="topic">Konu</label>
+          <select id="topic" name="topic">
+            <option value="">Genel iletişim</option>
+            <option>Veri ambarı ve modelleme</option>
+            <option>BI ve raporlama</option>
+            <option>Veri kalitesi ve yönetişim</option>
+            <option>Finans ve kontrol odaklı analitik</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Mesajın <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" required aria-describedby="messageErr"></textarea>
+          <p class="err" id="messageErr" hidden></p>
+        </div>
+        <div><button class="btn btn-primary" type="button" id="sendBtn">Gönder</button></div>
+        <p class="status" id="formStatus" role="status" tabindex="-1" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© <span id="year"></span> Gamze İbrahimağaoğlu</span>
+    <a href="#top">Başa dön ↑</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.body.classList.remove('no-js');
+
+  // Çalışma alanı verileri tek yerde
+  var PROJECTS = [
+    { title: 'Veri Modelleme ve DWH Tasarımı', cat: 'veri', label: 'Veri Altyapısı', desc: 'Analitik ve yapay zekâ projeleri için hazır, ölçeklenebilir veri ambarı modelleri tasarlıyorum.' },
+    { title: 'ETL ve Veri Hatları (ODI)', cat: 'veri', label: 'Veri Altyapısı', desc: 'Oracle Data Integrator ile veri çekme, dönüştürme ve yükleme süreçleri geliştiriyorum.' },
+    { title: 'Performans Optimizasyonu', cat: 'veri', label: 'Veri Altyapısı', desc: 'SQL ve yüksek hacimli veri yüklerinde performans iyileştirmeleri yapıyorum.' },
+    { title: 'Veri Kalitesi ve Anomali Tespiti', cat: 'analitik', label: 'Analitik', desc: 'Veri temizleme, kontrol mekanizmaları ve kök neden analiziyle verinin güvenilirliğini sağlıyorum.' },
+    { title: 'Raporlama ve Karar Destek', cat: 'analitik', label: 'Analitik', desc: 'Power BI ve analitik raporlama altyapılarıyla karar vericilere içgörü sunuyorum.' },
+    { title: 'Dokümantasyon, Yönetişim ve Güvenlik', cat: 'yonetisim', label: 'Yönetişim', desc: 'Süreç dokümantasyonu, veri yönetişimi, veri güvenliği ve yetkilendirme çalışmalarını yürütüyorum.' }
+  ];
+
+  var grid = document.getElementById('projGrid');
+  var emptyEl = document.getElementById('projEmpty');
+  var current = 'all';
+
+  function renderProjects() {
+    var list = PROJECTS.filter(function (p) { return current === 'all' || p.cat === current; });
+    grid.textContent = '';
+    list.forEach(function (p, i) {
+      var li = document.createElement('li');
+      li.className = 'card';
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      thumb.setAttribute('aria-hidden', 'true');
+      thumb.textContent = String(PROJECTS.indexOf(p) + 1).padStart(2, '0');
+      var body = document.createElement('div');
+      body.className = 'body';
+      var cat = document.createElement('span'); cat.className = 'cat'; cat.textContent = p.label;
+      var h = document.createElement('h3'); h.textContent = p.title;
+      var d = document.createElement('p'); d.className = 'od-clamp-3'; d.textContent = p.desc;
+      body.append(cat, h, d);
+      li.append(thumb, body);
+      grid.appendChild(li);
+    });
+    emptyEl.hidden = list.length !== 0;
+  }
+
+  document.querySelectorAll('.filter').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      current = btn.getAttribute('data-filter');
+      document.querySelectorAll('.filter').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      renderProjects();
+    });
+  });
+  renderProjects();
+
+  // Mobil menü
+  var menuBtn = document.getElementById('menuBtn');
+  var nav = document.getElementById('nav');
+  var mq = window.matchMedia('(max-width: 767px)');
+  function setMenu(open) {
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+    nav.hidden = mq.matches ? !open : false;
+  }
+  menuBtn.addEventListener('click', function () { setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'); });
+  nav.addEventListener('click', function (e) { if (e.target.closest('a') && mq.matches) setMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mq.matches && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); }
+  });
+  mq.addEventListener('change', function () { setMenu(false); });
+  setMenu(false);
+
+  // Aktif bölüm vurgusu
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.main a'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function updateActive() {
+    var y = window.scrollY + 120, active = null;
+    sections.forEach(function (s, i) { if (s && s.offsetTop <= y) active = i; });
+    links.forEach(function (a, i) {
+      if (i === active) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+
+  // Görünürlükte beliren öğeler
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // İletişim formu
+  var form = document.getElementById('contactForm');
+  var statusEl = document.getElementById('formStatus');
+  var sendBtn = document.getElementById('sendBtn');
+  var rules = {
+    name: function (v) { return v.trim().length >= 2 ? '' : 'Adını en az 2 karakterle yaz.'; },
+    email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Geçerli bir e-posta adresi gir, örneğin ad@alanadi.com.'; },
+    message: function (v) { return v.trim().length >= 10 ? '' : 'Mesajın en az 10 karakter olmalı.'; }
+  };
+  function validate(id) {
+    var input = document.getElementById(id);
+    var err = document.getElementById(id + 'Err');
+    var msg = rules[id](input.value);
+    err.textContent = msg;
+    err.hidden = !msg;
+    if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+    return !msg;
+  }
+  Object.keys(rules).forEach(function (id) {
+    document.getElementById(id).addEventListener('blur', function () { validate(id); });
+  });
+  sendBtn.addEventListener('click', function () {
+    statusEl.hidden = true;
+    var firstBad = null;
+    Object.keys(rules).forEach(function (id) { if (!validate(id) && !firstBad) firstBad = id; });
+    if (firstBad) { document.getElementById(firstBad).focus(); return; }
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Gönderiliyor…';
+    // Gerçek bir gönderim için buraya kendi servisini bağla
+    setTimeout(function () {
+      form.reset();
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Gönder';
+      statusEl.textContent = 'Teşekkürler! Mesajın hazırlandı. (Bu bir demo formdur; gerçek gönderim için bir servis bağlanmalı.)';
+      statusEl.hidden = false;
+      statusEl.focus();
+    }, 600);
+  });
+
+  // Birlikte çalışalım: konuyu forma taşı
+  document.querySelectorAll('[data-topic]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.getElementById('topic').value = el.getAttribute('data-topic');
+      document.getElementById('contact').scrollIntoView();
+      setTimeout(function () { document.getElementById('name').focus({ preventScroll: true }); }, 0);
+    });
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

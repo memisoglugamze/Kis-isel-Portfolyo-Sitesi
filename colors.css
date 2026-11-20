@@ -1,0 +1,14 @@
+/* Project color palette — use these variables everywhere instead of hardcoded colors. */
+:root {
+  --c-950: #051F20;
+  --c-900: #0B2B26;
+  --c-800: #163832;
+  --c-700: #235347;
+  --c-400: #8EB69B;
+  --c-100: #DAF1DE;
+
+  /* Palette-derived: between #DAF1DE and #8EB69B */
+  --text-muted: color-mix(in srgb, var(--c-100) 40%, var(--c-400));
+  /* Error state; intentionally outside the palette for visibility */
+  --danger: #F2B8B5;
+}
