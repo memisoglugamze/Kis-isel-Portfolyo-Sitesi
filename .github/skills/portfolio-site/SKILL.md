@@ -1,0 +1,66 @@
+---
+name: portfolio-site
+description: Gamze İbrahimağaoğlu'nun Türkçe statik portfolyo sitesini (index.html, colors.css) düzenleme kuralları. İçerik, bölüm, proje kartı, renk, stil, form veya yayınlama değişikliklerinde kullan.
+---
+
+# Portfolyo sitesi
+
+Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını kök dizinden yayınlar; build komutu yoktur.
+
+## Dosyalar
+
+- `index.html`: Tüm HTML, CSS (`<style>`) ve JavaScript (`<script>`) bu dosyadadır. Ayrı CSS/JS dosyası, framework veya paket ekleme.
+- `colors.css`: Renk paleti. Bütün renkler buradaki CSS değişkenlerinden gelir.
+- `shared-image.jpeg`: Hero bölümündeki profil fotoğrafı.
+- `README.md`: Proje açıklaması. Dosya yapısı veya kurulum değişirse güncelle.
+
+## Dil ve içerik
+
+- Sitedeki tüm metinler Türkçe (`lang="tr"`). Hitap samimi "sen" diliyle, birinci tekil şahıstan yazılır.
+- Hata ve durum mesajları da Türkçe olmalı.
+- Kişisel bilgileri (deneyim, eğitim, iletişim) kullanıcı istemedikçe değiştirme ve uydurma.
+
+## Stil kuralları
+
+- Renk kodu yazma; `var(--c-950)`, `var(--c-400)`, `var(--text-muted)`, `var(--danger)` gibi değişkenleri kullan. Yeni renk gerekirse önce `colors.css` dosyasına ekle.
+- Tek istisna `<meta name="theme-color">`; palet değişirse bu değeri `--c-950` ile eşitle.
+- Boşluk için `--sp-1`…`--sp-9`, yazı boyutu için `--fs-*`, köşe için `--radius`, süre için `--dur-fast` / `--dur-mid` kullan.
+- Başlıklar `--font-display`, gövde metni `--font-body` kullanır.
+- Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür.
+- Animasyonlarda yalnızca `transform` ve `opacity` kullan; `prefers-reduced-motion` bloğu korunmalı.
+
+## Erişilebilirlik
+
+- Tıklanabilir öğeler en az 44px yüksekliğinde olmalı.
+- Düğmelerde `type="button"`, ikon düğmelerde `aria-label`, dekoratif SVG'lerde `aria-hidden="true"` kullan.
+- Görsellerde anlamlı `alt` ile `width`/`height` bulunmalı.
+- Odak stili (`:focus-visible`) ve "İçeriğe geç" bağlantısı kaldırılmamalı.
+
+## Yapı ve davranış
+
+- Her bölüm `<section id="...">` içinde `.wrap` kullanır; başlık `.sec-head` içinde `.eyebrow` + `h2` ile yazılır. Bölüm numaraları (01, 02…) CSS sayacıyla otomatik gelir, elle yazma.
+- Yeni bölüm eklerken `nav.main` içine aynı `href="#id"` bağlantısını ekle; aktif menü vurgusu bu eşleşmeye bağlıdır.
+- Görünürken beliren öğelere `reveal` sınıfı ver.
+- Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `title`, `cat`, `label`, `desc` alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle eşleşmeli; yeni kategori eklenirse filtre düğmesini de ekle.
+- "Birlikte çalışalım" kartlarındaki `data-topic` değerleri, iletişim formundaki `#topic` seçeneklerinin metniyle birebir aynı olmalı.
+- DOM'a içerik eklerken `innerHTML` yerine `textContent` / `createElement` kullan.
+
+## İletişim formu
+
+Form şu an demo: doğrulama yapar ama mesaj göndermez. Gerçek gönderim (ör. Netlify Forms) eklenirse demo durum mesajını da güncelle. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır.
+
+## Doğrulama
+
+Değişiklikten sonra yerel sunucuyla kontrol et:
+
+```bash
+python3 -m http.server 8000
+```
+
+`http://localhost:8000` adresinde masaüstü ve 375px mobil genişlikte; menü, proje filtreleri, form hataları ve tarayıcı konsolunda hata olmadığını kontrol et.
+
+## Git ve yayın
+
+- Uzak depo: `https://github.com/memisoglugamze/Kis-isel-Portfolyo-Sitesi.git`, dal `main`.
+- Varsayılan git kimliği iş hesabıdır ve bu depoya yazamaz. Push için kişisel `memisoglugamze` hesabı gerekir; global git ayarlarını veya VS Code oturumunu değiştirme.
+- `main` dalına yapılan her push Netlify'da otomatik yayına çıkar.
