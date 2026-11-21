@@ -18,6 +18,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 ## Dil ve içerik
 
 - Sitedeki tüm metinler Türkçe (`lang="tr"`). Hitap samimi "sen" diliyle, birinci tekil şahıstan yazılır.
+- `.eyebrow` gibi `text-transform: uppercase` kullanan öğelerdeki İngilizce metinlere `lang="en"` ekle; yoksa Türkçe kuralla "i" harfi "İ" olur (ör. "BUSİNESS").
 - Hata ve durum mesajları da Türkçe olmalı.
 - Kişisel bilgileri (deneyim, eğitim, iletişim) kullanıcı istemedikçe değiştirme ve uydurma.
 
