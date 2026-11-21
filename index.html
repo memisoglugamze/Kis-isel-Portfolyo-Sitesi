@@ -173,19 +173,31 @@ nav.main a[aria-current="true"] { background: var(--c-800); color: var(--c-100);
 .tl p { color: var(--text-muted); }
 
 /* projects */
-.filters { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-6); }
-.filter { min-height: 44px; padding-inline: var(--sp-5); background: transparent; color: var(--c-100); border: 1px solid var(--c-700); border-radius: 999px; font: 500 var(--fs-small)/1 var(--font-body); cursor: pointer; transition: background var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
+.proj-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-5); margin-bottom: var(--sp-6); }
+.filters { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.filter { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; padding-inline: var(--sp-5); background: transparent; color: var(--c-100); border: 1px solid var(--c-700); border-radius: 999px; font: 500 var(--fs-small)/1 var(--font-body); cursor: pointer; transition: background var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
 .filter:hover { border-color: var(--c-400); background: var(--c-800); }
 .filter[aria-pressed="true"] { background: var(--c-400); color: var(--c-950); border-color: var(--c-400); }
+.filter .count { min-width: 1.5em; padding: 2px var(--sp-2); border-radius: 999px; background: var(--c-800); color: var(--c-100); font-size: 0.8125rem; font-variant-numeric: tabular-nums; text-align: center; }
+.filter[aria-pressed="true"] .count { background: var(--c-950); }
+.proj-count { color: var(--text-muted); font-size: var(--fs-small); }
 .proj-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5); }
-.card { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: border-color var(--dur-fast) ease-out, transform var(--dur-fast) ease-out; }
+.card { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5) var(--sp-5) var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-3); transition: border-color var(--dur-fast) ease-out, transform var(--dur-fast) ease-out; }
 .card:hover { border-color: var(--c-400); transform: translateY(-2px); }
-.card .thumb { aspect-ratio: 16 / 10; background: var(--c-800); display: grid; place-items: center; color: var(--c-400); font-family: var(--font-display); font-size: 2rem; border-bottom: 1px solid var(--c-700); }
-.card .body { padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-3); flex: 1; }
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-2); }
+.proj-icon { width: 48px; height: 48px; display: grid; place-items: center; background: var(--c-800); color: var(--c-400); border: 1px solid var(--c-700); border-radius: var(--radius); }
+.proj-icon svg { width: 24px; height: 24px; }
+.proj-num { color: var(--text-muted); font: 600 var(--fs-small)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }
 .card h3 { font-size: 1.375rem; }
 .card p { color: var(--text-muted); }
-.card .cat { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; }
-.card .link { margin-top: auto; display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; color: var(--c-100); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-400); }
+.card .cat { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.04em; }
+.card .tags { gap: var(--sp-1) var(--sp-2); }
+.card .tag { font-size: 0.8125rem; padding: 2px var(--sp-3); }
+.card-foot { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--c-800); }
+.card-cta { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; padding: 0; background: none; border: 0; color: var(--c-100); font: 600 var(--fs-small)/1 var(--font-body); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-400); }
+.card-cta:hover { color: var(--c-400); }
+.card-cta span { transition: transform var(--dur-fast) ease-out; }
+.card-cta:hover span { transform: translateX(3px); }
 .empty { color: var(--text-muted); padding: var(--sp-6); border: 1px dashed var(--c-700); border-radius: var(--radius); }
 
 /* professional polish */
@@ -448,12 +460,16 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       <div class="sec-head reveal">
         <p class="eyebrow">Projeler</p>
         <h2>Çalışma alanlarım</h2>
+        <p>Digiturk’te veri altyapısından analitiğe ve yönetişime uzanan, üzerinde çalıştığım başlıca alanlar.</p>
       </div>
-      <div class="filters" role="group" aria-label="Çalışma alanı kategorisi">
-        <button class="filter" type="button" data-filter="all" aria-pressed="true">Tümü</button>
-        <button class="filter" type="button" data-filter="veri" aria-pressed="false">Veri Altyapısı</button>
-        <button class="filter" type="button" data-filter="analitik" aria-pressed="false">Analitik</button>
-        <button class="filter" type="button" data-filter="yonetisim" aria-pressed="false">Yönetişim</button>
+      <div class="proj-toolbar">
+        <div class="filters" role="group" aria-label="Çalışma alanı kategorisi">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">Tümü</button>
+          <button class="filter" type="button" data-filter="veri" aria-pressed="false">Veri Altyapısı</button>
+          <button class="filter" type="button" data-filter="analitik" aria-pressed="false">Analitik</button>
+          <button class="filter" type="button" data-filter="yonetisim" aria-pressed="false">Yönetişim</button>
+        </div>
+        <p class="proj-count" id="projCount" aria-live="polite"></p>
       </div>
       <ul class="proj-grid" id="projGrid"></ul>
       <p class="empty" id="projEmpty" hidden>Bu kategoride çalışma alanı yok. Başka bir kategori seçebilirsin.</p>
@@ -564,40 +580,80 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
 (function () {
   document.body.classList.remove('no-js');
 
-  // Çalışma alanı verileri tek yerde
+  // Çalışma alanı verileri tek yerde. topic: iletişim formundaki #topic seçeneğiyle birebir aynı olmalı
   var PROJECTS = [
-    { title: 'Veri Modelleme ve DWH Tasarımı', cat: 'veri', label: 'Veri Altyapısı', desc: 'Analitik ve yapay zekâ projeleri için hazır, ölçeklenebilir veri ambarı modelleri tasarlıyorum.' },
-    { title: 'ETL ve Veri Hatları (ODI)', cat: 'veri', label: 'Veri Altyapısı', desc: 'Oracle Data Integrator ile veri çekme, dönüştürme ve yükleme süreçleri geliştiriyorum.' },
-    { title: 'Performans Optimizasyonu', cat: 'veri', label: 'Veri Altyapısı', desc: 'SQL ve yüksek hacimli veri yüklerinde performans iyileştirmeleri yapıyorum.' },
-    { title: 'Veri Kalitesi ve Anomali Tespiti', cat: 'analitik', label: 'Analitik', desc: 'Veri temizleme, kontrol mekanizmaları ve kök neden analiziyle verinin güvenilirliğini sağlıyorum.' },
-    { title: 'Raporlama ve Karar Destek', cat: 'analitik', label: 'Analitik', desc: 'Power BI ve analitik raporlama altyapılarıyla karar vericilere içgörü sunuyorum.' },
-    { title: 'Dokümantasyon, Yönetişim ve Güvenlik', cat: 'yonetisim', label: 'Yönetişim', desc: 'Süreç dokümantasyonu, veri yönetişimi, veri güvenliği ve yetkilendirme çalışmalarını yürütüyorum.' }
+    { title: 'Veri Modelleme ve DWH Tasarımı', cat: 'veri', label: 'Veri Altyapısı', desc: 'Analitik ve yapay zekâ projeleri için hazır, ölçeklenebilir veri ambarı modelleri tasarlıyorum.', tags: ['Veri Modelleme', 'Analytics-Ready DWH'], topic: 'Veri ambarı ve modelleme' },
+    { title: 'ETL ve Veri Hatları (ODI)', cat: 'veri', label: 'Veri Altyapısı', desc: 'Oracle Data Integrator ile veri çekme, dönüştürme ve yükleme süreçleri geliştiriyorum.', tags: ['ODI', 'ETL', 'SQL'], topic: 'Veri ambarı ve modelleme' },
+    { title: 'Performans Optimizasyonu', cat: 'veri', label: 'Veri Altyapısı', desc: 'SQL ve yüksek hacimli veri yüklerinde performans iyileştirmeleri yapıyorum.', tags: ['SQL', 'Veritabanları'], topic: 'Veri ambarı ve modelleme' },
+    { title: 'Veri Kalitesi ve Anomali Tespiti', cat: 'analitik', label: 'Analitik', desc: 'Veri temizleme, kontrol mekanizmaları ve kök neden analiziyle verinin güvenilirliğini sağlıyorum.', tags: ['Veri Kalitesi', 'Anomali Tespiti', 'Kök Neden Analizi'], topic: 'Veri kalitesi ve yönetişim' },
+    { title: 'Raporlama ve Karar Destek', cat: 'analitik', label: 'Analitik', desc: 'Power BI ve analitik raporlama altyapılarıyla karar vericilere içgörü sunuyorum.', tags: ['Power BI', 'Analitik Raporlama'], topic: 'BI ve raporlama' },
+    { title: 'Dokümantasyon, Yönetişim ve Güvenlik', cat: 'yonetisim', label: 'Yönetişim', desc: 'Süreç dokümantasyonu, veri yönetişimi, veri güvenliği ve yetkilendirme çalışmalarını yürütüyorum.', tags: ['Veri Yönetişimi', 'Yetkilendirme', 'Dokümantasyon'], topic: 'Veri kalitesi ve yönetişim' }
   ];
+  var CAT_ICONS = {
+    veri: ['M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z', 'M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6', 'M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6'],
+    analitik: ['M4 20h16', 'M7 16v-5', 'M12 16V6', 'M17 16v-8'],
+    yonetisim: ['M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3Z', 'M9 12l2 2 4-4']
+  };
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  function catIcon(cat) {
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    (CAT_ICONS[cat] || []).forEach(function (d) {
+      var path = document.createElementNS(SVG_NS, 'path');
+      path.setAttribute('d', d);
+      svg.appendChild(path);
+    });
+    return svg;
+  }
 
   var grid = document.getElementById('projGrid');
   var emptyEl = document.getElementById('projEmpty');
+  var countEl = document.getElementById('projCount');
   var current = 'all';
+
+  document.querySelectorAll('.filter').forEach(function (btn) {
+    var f = btn.getAttribute('data-filter');
+    var n = PROJECTS.filter(function (p) { return f === 'all' || p.cat === f; }).length;
+    var badge = document.createElement('span');
+    badge.className = 'count';
+    badge.textContent = String(n);
+    btn.appendChild(badge);
+  });
 
   function renderProjects() {
     var list = PROJECTS.filter(function (p) { return current === 'all' || p.cat === current; });
     grid.textContent = '';
-    list.forEach(function (p, i) {
+    list.forEach(function (p) {
       var li = document.createElement('li');
       li.className = 'card';
-      var thumb = document.createElement('div');
-      thumb.className = 'thumb';
-      thumb.setAttribute('aria-hidden', 'true');
-      thumb.textContent = String(PROJECTS.indexOf(p) + 1).padStart(2, '0');
-      var body = document.createElement('div');
-      body.className = 'body';
+      var top = document.createElement('div'); top.className = 'card-top';
+      var icon = document.createElement('span'); icon.className = 'proj-icon'; icon.appendChild(catIcon(p.cat));
+      var num = document.createElement('span'); num.className = 'proj-num'; num.setAttribute('aria-hidden', 'true');
+      num.textContent = String(PROJECTS.indexOf(p) + 1).padStart(2, '0');
+      top.append(icon, num);
       var cat = document.createElement('span'); cat.className = 'cat'; cat.textContent = p.label;
       var h = document.createElement('h3'); h.textContent = p.title;
-      var d = document.createElement('p'); d.className = 'od-clamp-3'; d.textContent = p.desc;
-      body.append(cat, h, d);
-      li.append(thumb, body);
+      var d = document.createElement('p'); d.textContent = p.desc;
+      var tags = document.createElement('ul'); tags.className = 'tags'; tags.setAttribute('aria-label', 'Araç ve yetkinlikler');
+      p.tags.forEach(function (t) { var tag = document.createElement('li'); tag.className = 'tag'; tag.textContent = t; tags.appendChild(tag); });
+      var foot = document.createElement('div'); foot.className = 'card-foot';
+      var cta = document.createElement('button'); cta.type = 'button'; cta.className = 'card-cta';
+      cta.setAttribute('data-topic', p.topic);
+      cta.setAttribute('aria-label', p.title + ' hakkında konuşalım');
+      var arrow = document.createElement('span'); arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '→';
+      cta.append('Bu konuda konuşalım', arrow);
+      foot.appendChild(cta);
+      li.append(top, cat, h, d, tags, foot);
       grid.appendChild(li);
     });
     emptyEl.hidden = list.length !== 0;
+    countEl.textContent = list.length + ' / ' + PROJECTS.length + ' çalışma alanı gösteriliyor';
   }
 
   document.querySelectorAll('.filter').forEach(function (btn) {
@@ -810,13 +866,13 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     });
   });
 
-  // Birlikte çalışalım: konuyu forma taşı
-  document.querySelectorAll('[data-topic]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      document.getElementById('topic').value = el.getAttribute('data-topic');
-      document.getElementById('contact').scrollIntoView();
-      setTimeout(function () { document.getElementById('name').focus({ preventScroll: true }); }, 0);
-    });
+  // Birlikte çalışalım ve proje kartları: konuyu forma taşı (kartlar yeniden çizildiği için olay yetkilendirme)
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-topic]');
+    if (!el) return;
+    document.getElementById('topic').value = el.getAttribute('data-topic');
+    document.getElementById('contact').scrollIntoView();
+    setTimeout(function () { document.getElementById('name').focus({ preventScroll: true }); }, 0);
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();

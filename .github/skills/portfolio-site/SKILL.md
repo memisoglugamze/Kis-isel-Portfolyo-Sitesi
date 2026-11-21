@@ -41,8 +41,8 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 - Her bölüm `<section id="...">` içinde `.wrap` kullanır; başlık `.sec-head` içinde `.eyebrow` + `h2` ile yazılır. Bölüm numaraları (01, 02…) CSS sayacıyla otomatik gelir, elle yazma.
 - Yeni bölüm eklerken `nav.main` içine aynı `href="#id"` bağlantısını ekle; aktif menü vurgusu bu eşleşmeye bağlıdır.
 - Görünürken beliren öğelere `reveal` sınıfı ver.
-- Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `title`, `cat`, `label`, `desc` alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle eşleşmeli; yeni kategori eklenirse filtre düğmesini de ekle.
-- "Birlikte çalışalım" kartlarındaki `data-topic` değerleri, iletişim formundaki `#topic` seçeneklerinin metniyle birebir aynı olmalı.
+- Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `title`, `cat`, `label`, `desc`, `tags` (Yetenekler bölümündeki araç/yetkinliklerden) ve `topic` alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle ve `CAT_ICONS` anahtarıyla eşleşmeli; yeni kategori eklenirse filtre düğmesini ve ikonunu da ekle. Filtre sayaçları otomatik hesaplanır.
+- "Birlikte çalışalım" kartlarındaki ve `PROJECTS` öğelerindeki `data-topic` / `topic` değerleri, iletişim formundaki `#topic` seçeneklerinin metniyle birebir aynı olmalı. Tıklamalar `document` üzerinde yetkilendirmeyle dinlenir; dinamik öğelere ayrıca olay bağlama.
 - Pano (`#dashboard`) verileri script'teki `CAREER` dizisinden (`role`, `org`, `start`/`end` `YYYY-MM`, `end: null` = günümüz, `track: 'fin' | 'bi'`) ve `PROJECTS` dizisinden hesaplanır. Deneyim bölümü değişirse `CAREER` dizisini de güncelle. KPI'lardaki HTML değerleri yalnızca JS kapalıyken görünen yedek değerlerdir. Uydurma metrik ekleme; yeni rakamları kullanıcıdan al.
 - DOM'a içerik eklerken `innerHTML` yerine `textContent` / `createElement` kullan.
 
