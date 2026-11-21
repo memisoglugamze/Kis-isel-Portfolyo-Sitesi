@@ -16,6 +16,7 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 
 ## İçerik ve özellikler
 
+- Kariyer panosu: KPI kartları, kariyer zaman çizelgesi, deneyim dağılımı ve projeleri filtreleyen çalışma alanı grafiği
 - Hakkımda, yetenekler, deneyim ve eğitim bölümleri
 - Kategori filtreleriyle çalışma alanları
 - Mobil gezinme menüsü ve duyarlı sayfa düzeni
@@ -34,6 +35,7 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 ## Özelleştirme
 
 - Metinleri ve proje/çalışma alanı kartlarını `index.html` içinde güncelleyin.
+- Yeni bir iş deneyimi eklerseniz hem "Deneyim" bölümünü hem de script'teki `CAREER` dizisini güncelleyin; pano süreleri bu diziden hesaplanır.
 - Renkleri `colors.css` dosyasındaki CSS değişkenlerinden düzenleyin.
 - Profil görselini değiştirecekseniz `index.html` içindeki `shared-image.jpeg` yolunu yeni görselin yolu ile eşleştirin.
 - Form alanı eklerseniz `name` özniteliği verin; Netlify yalnızca HTML'de tanımlı alanları kaydeder.

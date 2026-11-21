@@ -43,6 +43,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 - Görünürken beliren öğelere `reveal` sınıfı ver.
 - Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `title`, `cat`, `label`, `desc` alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle eşleşmeli; yeni kategori eklenirse filtre düğmesini de ekle.
 - "Birlikte çalışalım" kartlarındaki `data-topic` değerleri, iletişim formundaki `#topic` seçeneklerinin metniyle birebir aynı olmalı.
+- Pano (`#dashboard`) verileri script'teki `CAREER` dizisinden (`role`, `org`, `start`/`end` `YYYY-MM`, `end: null` = günümüz, `track: 'fin' | 'bi'`) ve `PROJECTS` dizisinden hesaplanır. Deneyim bölümü değişirse `CAREER` dizisini de güncelle. KPI'lardaki HTML değerleri yalnızca JS kapalıyken görünen yedek değerlerdir. Uydurma metrik ekleme; yeni rakamları kullanıcıdan al.
 - DOM'a içerik eklerken `innerHTML` yerine `textContent` / `createElement` kullan.
 
 ## İletişim formu

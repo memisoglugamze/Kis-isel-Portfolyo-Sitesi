@@ -96,6 +96,54 @@ nav.main a[aria-current="true"] { background: var(--c-800); color: var(--c-100);
 .portrait-img { display: block; width: 100%; max-width: 380px; height: auto; margin-inline: auto; border: 1px solid var(--c-700); border-radius: var(--radius); }
 .portrait small { display: block; color: var(--text-muted); font-size: var(--fs-small); }
 
+/* dashboard */
+.dashboard { border-top: 1px solid var(--c-800); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-5); margin-bottom: var(--sp-5); }
+.kpi { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5); display: grid; gap: var(--sp-2); align-content: start; border-top: 3px solid var(--c-400); }
+.kpi-label { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; }
+.kpi-value { font: 600 clamp(2rem, 1.6rem + 1.5vw, 2.75rem)/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.kpi-value.is-text { font-size: 1.375rem; line-height: 1.3; }
+.kpi-note { color: var(--text-muted); font-size: var(--fs-small); }
+.dash-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-5); }
+.panel { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5) var(--sp-6) var(--sp-6); display: grid; gap: var(--sp-5); align-content: start; }
+.panel-wide { grid-column: 1 / -1; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-2) var(--sp-5); }
+.panel-head h3 { font-size: 1.25rem; }
+.panel-head p { color: var(--text-muted); font-size: var(--fs-small); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); font-size: var(--fs-small); color: var(--text-muted); }
+.legend li { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.dot { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.is-fin { background: var(--c-100); }
+.is-bi { background: var(--c-400); }
+.gantt { display: grid; gap: var(--sp-4); list-style: none; margin: 0; padding: 0; }
+.g-row, .g-axis { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: var(--sp-5); align-items: center; }
+.g-label { display: grid; gap: 2px; }
+.g-label b { font-weight: 600; font-size: var(--fs-small); }
+.g-label span { color: var(--text-muted); font-size: var(--fs-small); }
+.g-track { position: relative; height: 20px; background: var(--c-800); border-radius: 4px; }
+.g-bar { position: absolute; top: 0; bottom: 0; border-radius: 4px; transform: scaleX(0); transform-origin: left; transition: transform calc(var(--dur-mid) * 2) ease-out; transition-delay: calc(var(--i, 0) * 90ms); }
+.g-ticks { position: relative; height: 1.5em; color: var(--text-muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.g-ticks span { position: absolute; top: 0; transform: translateX(-50%); }
+.donut-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-6); }
+.donut { width: 168px; height: 168px; flex: none; }
+.donut circle { fill: none; stroke-width: 14; }
+.donut .d-track { stroke: var(--c-800); }
+.donut .d-fin { stroke: var(--c-100); }
+.donut .d-bi { stroke: var(--c-400); }
+.donut text { fill: var(--c-100); text-anchor: middle; font-family: var(--font-display); }
+.donut .d-sub { fill: var(--text-muted); font-family: var(--font-body); }
+.split { display: grid; gap: var(--sp-4); }
+.split li { display: grid; grid-template-columns: auto 1fr; column-gap: var(--sp-3); align-items: center; }
+.split strong { grid-column: 2; font: 600 1.5rem/1.2 var(--font-display); }
+.split span:not(.dot) { color: var(--text-muted); font-size: var(--fs-small); }
+.bars { display: grid; gap: var(--sp-2); }
+.bar-btn { width: 100%; min-height: 44px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-2) var(--sp-3); padding: var(--sp-3); background: transparent; color: var(--c-100); border: 1px solid transparent; border-radius: var(--radius); font: 500 var(--fs-small)/1.3 var(--font-body); text-align: left; cursor: pointer; transition: background var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
+.bar-btn:hover { background: var(--c-800); border-color: var(--c-700); }
+.bar-btn b { font-variant-numeric: tabular-nums; }
+.bar-track { grid-column: 1 / -1; height: 10px; background: var(--c-800); border-radius: 999px; }
+.bar-fill { display: block; height: 100%; background: var(--c-400); border-radius: 999px; transform: scaleX(0); transform-origin: left; transition: transform calc(var(--dur-mid) * 2) ease-out; transition-delay: calc(var(--i, 0) * 90ms); }
+.panel.in .g-bar, .panel.in .bar-fill { transform: scaleX(1); }
+
 /* about */
 .about { background: var(--c-900); }
 .about-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--sp-8); }
@@ -204,8 +252,9 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
 .no-js .reveal { opacity: 1; transform: none; }
 
 @media (max-width: 1023px) {
-  .skill-grid, .proj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill-grid, .proj-grid, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dash-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-grid, .about-grid, .tl-grid, .contact-grid { grid-template-columns: minmax(0, 1fr); gap: var(--sp-7); }
   section { padding-block: var(--sp-8); }
 }
@@ -214,7 +263,11 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   nav.main { position: absolute; top: var(--header-h); left: 0; right: 0; background: var(--c-950); border-bottom: 1px solid var(--c-800); padding: var(--sp-3) var(--sp-5) var(--sp-5); }
   nav.main ul { flex-direction: column; }
   nav.main a { width: 100%; }
-  .skill-grid, .proj-grid, .collab-grid, .steps { grid-template-columns: minmax(0, 1fr); }
+  .skill-grid, .proj-grid, .collab-grid, .steps, .kpis { grid-template-columns: minmax(0, 1fr); }
+  .panel { padding: var(--sp-5); }
+  .g-row, .g-axis { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .g-axis > span:first-child { display: none; }
+  .g-ticks span:nth-child(even) { display: none; }
   .hero { padding-top: calc(var(--header-h) + var(--sp-7)); }
   .btn { width: 100%; }
 }
@@ -236,6 +289,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     </button>
     <nav class="main" id="nav" aria-label="Ana gezinme">
       <ul>
+        <li><a href="#dashboard">Pano</a></li>
         <li><a href="#about">Hakkımda</a></li>
         <li><a href="#skills">Yetenekler</a></li>
         <li><a href="#experience">Deneyim</a></li>
@@ -267,6 +321,55 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
         </dl>
       </div>
       <img class="portrait-img" src="shared-image.jpeg" width="1500" height="2000" alt="Gamze İbrahimağaoğlu'nun profil fotoğrafı">
+    </div>
+  </section>
+
+  <section class="dashboard" id="dashboard">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Pano</p>
+        <h2>Kariyerim tek bakışta</h2>
+        <p>Deneyimimi bir BI panosu gibi özetledim. Süreler bugünün tarihine göre otomatik hesaplanır.</p>
+      </div>
+      <ul class="kpis">
+        <li class="kpi reveal"><span class="kpi-label">Kurumsal deneyim</span><strong class="kpi-value" id="kpiTotal">8+ yıl</strong><span class="kpi-note">Şubat 2018’den bu yana</span></li>
+        <li class="kpi reveal"><span class="kpi-label">BI &amp; DWH deneyimi</span><strong class="kpi-value" id="kpiBi">3+ yıl</strong><span class="kpi-note">Mart 2023’ten bu yana, Digiturk</span></li>
+        <li class="kpi reveal"><span class="kpi-label">Rol / kurum</span><strong class="kpi-value" id="kpiRoles">4 / 3</strong><span class="kpi-note">Finans, iç kontrol ve veri</span></li>
+        <li class="kpi reveal"><span class="kpi-label">Temel araçlar</span><strong class="kpi-value is-text">SQL · ODI · Power BI</strong><span class="kpi-note">Veritabanları ve ETL</span></li>
+      </ul>
+      <div class="dash-grid">
+        <article class="panel panel-wide reveal">
+          <div class="panel-head">
+            <h3>Kariyer zaman çizelgesi</h3>
+            <ul class="legend">
+              <li><span class="dot is-fin" aria-hidden="true"></span>Finans ve kontrol</li>
+              <li><span class="dot is-bi" aria-hidden="true"></span>BI ve veri</li>
+            </ul>
+          </div>
+          <ol class="gantt" id="gantt"></ol>
+          <div class="g-axis" aria-hidden="true"><span></span><div class="g-ticks" id="ganttTicks"></div></div>
+        </article>
+        <article class="panel reveal">
+          <div class="panel-head"><h3>Deneyim dağılımı</h3></div>
+          <div class="donut-wrap">
+            <svg class="donut" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="d-track" cx="60" cy="60" r="48"/>
+              <circle class="d-bi" id="donutBi" cx="60" cy="60" r="48" pathLength="100" transform="rotate(-90 60 60)"/>
+              <circle class="d-fin" id="donutFin" cx="60" cy="60" r="48" pathLength="100" transform="rotate(-90 60 60)"/>
+              <text x="60" y="60" font-size="24" id="donutTotal">8+</text>
+              <text class="d-sub" x="60" y="78" font-size="11">yıl</text>
+            </svg>
+            <ul class="split" id="donutLegend"></ul>
+          </div>
+        </article>
+        <article class="panel reveal">
+          <div class="panel-head">
+            <h3>Çalışma alanları</h3>
+            <p>Çubuğa tıklayarak projeleri filtrele.</p>
+          </div>
+          <ul class="bars" id="catBars"></ul>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -507,6 +610,114 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     });
   });
   renderProjects();
+
+  // Pano: kariyer verileri "Deneyim" bölümüyle aynı tutulmalı (end: null = günümüz)
+  var CAREER = [
+    { role: 'Financial Control Assistant Specialist', org: 'Rossmann Türkiye', start: '2018-02', end: '2019-12', track: 'fin' },
+    { role: 'Internal Control Assistant Specialist', org: 'Turgut Aydın Holding', start: '2019-12', end: '2021-04', track: 'fin' },
+    { role: 'Financial Control Specialist', org: 'Digiturk', start: '2021-04', end: '2023-03', track: 'fin' },
+    { role: 'BI & Data Warehouse Developer', org: 'Digiturk', start: '2023-03', end: null, track: 'bi' }
+  ];
+  var MONTHS_TR = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+  var now = new Date();
+  function toIndex(ym) {
+    if (!ym) return now.getFullYear() * 12 + now.getMonth();
+    var p = ym.split('-');
+    return Number(p[0]) * 12 + Number(p[1]) - 1;
+  }
+  function fmtMonth(ym) {
+    if (!ym) return 'Günümüz';
+    var i = toIndex(ym);
+    return MONTHS_TR[i % 12] + ' ' + Math.floor(i / 12);
+  }
+  function fmtYears(months) {
+    return (months / 12).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' yıl';
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  var monthsByTrack = { fin: 0, bi: 0 };
+  CAREER.forEach(function (c) { monthsByTrack[c.track] += toIndex(c.end) - toIndex(c.start); });
+  var totalMonths = monthsByTrack.fin + monthsByTrack.bi;
+  var orgs = CAREER.map(function (c) { return c.org; }).filter(function (o, i, a) { return a.indexOf(o) === i; });
+
+  document.getElementById('kpiTotal').textContent = Math.floor(totalMonths / 12) + '+ yıl';
+  document.getElementById('kpiBi').textContent = Math.floor(monthsByTrack.bi / 12) + '+ yıl';
+  document.getElementById('kpiRoles').textContent = CAREER.length + ' / ' + orgs.length;
+  document.getElementById('donutTotal').textContent = Math.floor(totalMonths / 12) + '+';
+
+  // Gantt: ilk başlangıç yılının başından içinde bulunulan yılın sonuna kadar
+  var firstYear = Math.floor(toIndex(CAREER[0].start) / 12);
+  var lastYear = now.getFullYear() + 1;
+  var rangeStart = firstYear * 12, rangeLen = (lastYear - firstYear) * 12;
+  var gantt = document.getElementById('gantt');
+  CAREER.forEach(function (c, i) {
+    var row = el('li', 'g-row');
+    var label = el('div', 'g-label');
+    label.append(el('b', null, c.role), el('span', null, c.org + ' · ' + fmtMonth(c.start) + ' – ' + fmtMonth(c.end)));
+    var track = el('div', 'g-track');
+    track.setAttribute('aria-hidden', 'true');
+    var bar = el('span', 'g-bar is-' + c.track);
+    bar.style.left = ((toIndex(c.start) - rangeStart) / rangeLen * 100) + '%';
+    bar.style.width = ((toIndex(c.end) - toIndex(c.start)) / rangeLen * 100) + '%';
+    bar.style.setProperty('--i', i);
+    track.appendChild(bar);
+    row.append(label, track);
+    gantt.appendChild(row);
+  });
+  var ticks = document.getElementById('ganttTicks');
+  for (var y = firstYear; y <= lastYear; y++) {
+    var t = el('span', null, String(y));
+    t.style.left = ((y - firstYear) * 12 / rangeLen * 100) + '%';
+    ticks.appendChild(t);
+  }
+
+  // Halka grafik
+  var biPct = monthsByTrack.bi / totalMonths * 100;
+  document.getElementById('donutBi').setAttribute('stroke-dasharray', biPct + ' ' + (100 - biPct));
+  var donutFin = document.getElementById('donutFin');
+  donutFin.setAttribute('stroke-dasharray', (100 - biPct) + ' ' + biPct);
+  donutFin.setAttribute('stroke-dashoffset', String(-biPct));
+  var legend = document.getElementById('donutLegend');
+  [['fin', 'Finans ve kontrol'], ['bi', 'BI ve veri']].forEach(function (d) {
+    var li = el('li');
+    var dot = el('span', 'dot is-' + d[0]);
+    dot.setAttribute('aria-hidden', 'true');
+    var pct = Math.round(monthsByTrack[d[0]] / totalMonths * 100);
+    li.append(dot, el('span', null, d[1] + ' · %' + pct), el('strong', null, fmtYears(monthsByTrack[d[0]])));
+    legend.appendChild(li);
+  });
+
+  // Çalışma alanı çubukları: tıklanınca proje filtresini uygular
+  var cats = [];
+  PROJECTS.forEach(function (p) {
+    var found = cats.filter(function (c) { return c.cat === p.cat; })[0];
+    if (found) found.count++; else cats.push({ cat: p.cat, label: p.label, count: 1 });
+  });
+  var maxCount = Math.max.apply(null, cats.map(function (c) { return c.count; }));
+  var bars = document.getElementById('catBars');
+  cats.forEach(function (c, i) {
+    var btn = el('button', 'bar-btn');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', c.label + ': ' + c.count + ' çalışma alanı. Projelerde filtrele');
+    var trackEl = el('span', 'bar-track');
+    var fill = el('span', 'bar-fill');
+    fill.style.width = (c.count / maxCount * 100) + '%';
+    fill.style.setProperty('--i', i);
+    trackEl.appendChild(fill);
+    btn.append(el('span', null, c.label), el('b', null, String(c.count)), trackEl);
+    btn.addEventListener('click', function () {
+      document.querySelector('.filter[data-filter="' + c.cat + '"]').click();
+      document.getElementById('projects').scrollIntoView();
+    });
+    var li = el('li');
+    li.appendChild(btn);
+    bars.appendChild(li);
+  });
 
   // Mobil menü
   var menuBtn = document.getElementById('menuBtn');
