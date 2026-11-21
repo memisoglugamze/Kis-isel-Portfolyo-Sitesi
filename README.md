@@ -30,12 +30,13 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 
 - `index.html` — Sayfa içeriği, stiller ve etkileşimler
 - `colors.css` — Ortak renk paleti
-- `shared-image.jpeg` — Profil fotoğrafı
+- `profile.jpeg` — Hero bölümündeki yuvarlak profil fotoğrafı (700×700, `shared-image.jpeg` dosyasından kırpıldı)
+- `shared-image.jpeg` — Orijinal fotoğraf (1500×2000)
 
 ## Özelleştirme
 
 - Metinleri ve proje/çalışma alanı kartlarını `index.html` içinde güncelleyin.
 - Yeni bir iş deneyimi eklerseniz hem "Deneyim" bölümünü hem de script'teki `CAREER` dizisini güncelleyin; pano süreleri bu diziden hesaplanır.
 - Renkleri `colors.css` dosyasındaki CSS değişkenlerinden düzenleyin.
-- Profil görselini değiştirecekseniz `index.html` içindeki `shared-image.jpeg` yolunu yeni görselin yolu ile eşleştirin.
+- Profil görselini değiştirecekseniz en az 640×640 piksel kare bir görseli `profile.jpeg` adıyla kaydedin ve `index.html` içindeki `width`/`height` değerlerini görselin boyutuyla eşleştirin. Görsel CSS ile yuvarlak gösterilir.
 - Form alanı eklerseniz `name` özniteliği verin; Netlify yalnızca HTML'de tanımlı alanları kaydeder.

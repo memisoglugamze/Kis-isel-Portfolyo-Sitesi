@@ -11,7 +11,8 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 
 - `index.html`: Tüm HTML, CSS (`<style>`) ve JavaScript (`<script>`) bu dosyadadır. Ayrı CSS/JS dosyası, framework veya paket ekleme.
 - `colors.css`: Renk paleti. Bütün renkler buradaki CSS değişkenlerinden gelir.
-- `shared-image.jpeg`: Hero bölümündeki profil fotoğrafı.
+- `profile.jpeg`: Hero bölümündeki profil fotoğrafı; 700×700 kare kesit, CSS ile yuvarlak (`border-radius: 50%`) ve en fazla 320px gösterilir. Retina netliği için en az 640px kare olmalı; büyütülerek üretme.
+- `shared-image.jpeg`: Orijinal fotoğraf (1500×2000). Yeni kesit gerekirse buradan `sips -c <boy> <en> --cropOffset <y> <x>` ile kırp.
 - `README.md`: Proje açıklaması. Dosya yapısı veya kurulum değişirse güncelle.
 
 ## Dil ve içerik
