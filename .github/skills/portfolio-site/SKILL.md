@@ -23,7 +23,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 ## Stil kuralları
 
 - Renk kodu yazma; `var(--c-950)`, `var(--c-400)`, `var(--text-muted)`, `var(--danger)` gibi değişkenleri kullan. Yeni renk gerekirse önce `colors.css` dosyasına ekle.
-- Tek istisna `<meta name="theme-color">`; palet değişirse bu değeri `--c-950` ile eşitle.
+- İstisnalar `<meta name="theme-color">` ve `<link rel="icon">` içindeki SVG favicon'dur; palet değişirse bunları `--c-950` / `--c-400` ile eşitle.
 - Boşluk için `--sp-1`…`--sp-9`, yazı boyutu için `--fs-*`, köşe için `--radius`, süre için `--dur-fast` / `--dur-mid` kullan.
 - Başlıklar `--font-display`, gövde metni `--font-body` kullanır.
 - Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür.
@@ -47,7 +47,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 
 ## İletişim formu
 
-Form şu an demo: doğrulama yapar ama mesaj göndermez. Gerçek gönderim (ör. Netlify Forms) eklenirse demo durum mesajını da güncelle. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır.
+Form Netlify Forms ile gönderilir (`name="contact"`, `data-netlify="true"`, `bot-field` honeypot). Script `fetch('/')` ile urlencoded POST yapar; `form-name` gizli alanı kaldırılmamalı. Yeni alanlar statik HTML'de `name` ile tanımlanmalı, yoksa Netlify kaydetmez. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır. Gönderim hatasında `#formStatus` öğesine `is-error` sınıfı eklenir. Yerel sunucuda POST desteklenmediği için hata mesajı görmek normaldir.
 
 ## Doğrulama
 

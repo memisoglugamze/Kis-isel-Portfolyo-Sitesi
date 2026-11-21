@@ -7,6 +7,13 @@
 <link rel="stylesheet" href="colors.css">
 <title>Gamze İbrahimağaoğlu — BI &amp; Data Warehouse Developer</title>
 <meta name="description" content="Gamze İbrahimağaoğlu: Business Intelligence ve Data Warehouse Developer. Veri modelleme, ETL, veri kalitesi ve analitik raporlama.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="Gamze İbrahimağaoğlu">
+<meta property="og:title" content="Gamze İbrahimağaoğlu — BI &amp; Data Warehouse Developer">
+<meta property="og:description" content="Business Intelligence ve Data Warehouse Developer. Veri modelleme, ETL, veri kalitesi ve analitik raporlama.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23051F20'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-size='40' font-weight='700' fill='%238EB69B'%3EG%3C/text%3E%3C/svg%3E">
 <style>
 /* OD-LAYOUT-PRIMITIVES v1 */
 @layer od-layout {
@@ -186,6 +193,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--
 .err { color: var(--danger); font-size: var(--fs-small); }
 .err::before { content: "Hata: "; font-weight: 700; }
 .status { padding: var(--sp-4); border-radius: var(--radius); background: var(--c-800); border: 1px solid var(--c-400); }
+.status.is-error { border-color: var(--danger); }
 
 footer.site { padding-block: var(--sp-6); border-top: 1px solid var(--c-800); color: var(--text-muted); font-size: var(--fs-small); }
 footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-3); }
@@ -407,7 +415,9 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
           <a href="https://github.com/memisoglugamze" target="_blank" rel="noopener noreferrer">github.com/memisoglugamze</a>
         </div>
       </div>
-      <form id="contactForm" novalidate class="reveal" aria-describedby="formStatus">
+      <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate class="reveal" aria-describedby="formStatus">
+        <input type="hidden" name="form-name" value="contact">
+        <p hidden><label>Bu alanı boş bırak: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field">
           <label for="name">Adın <span class="req" aria-hidden="true">*</span></label>
           <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="nameErr">
@@ -567,15 +577,26 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     if (firstBad) { document.getElementById(firstBad).focus(); return; }
     sendBtn.disabled = true;
     sendBtn.textContent = 'Gönderiliyor…';
-    // Gerçek bir gönderim için buraya kendi servisini bağla
-    setTimeout(function () {
-      form.reset();
+    function showStatus(text, isError) {
       sendBtn.disabled = false;
       sendBtn.textContent = 'Gönder';
-      statusEl.textContent = 'Teşekkürler! Mesajın hazırlandı. (Bu bir demo formdur; gerçek gönderim için bir servis bağlanmalı.)';
+      statusEl.textContent = text;
+      statusEl.classList.toggle('is-error', isError);
       statusEl.hidden = false;
       statusEl.focus();
-    }, 600);
+    }
+    // Netlify Forms gönderimi; form yayın sırasında HTML'deki data-netlify özniteliğinden algılanır
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      showStatus('Teşekkürler! Mesajın bana ulaştı, en kısa sürede dönüş yapacağım.', false);
+    }).catch(function () {
+      showStatus('Mesajın gönderilemedi. Biraz sonra tekrar dene ya da bana doğrudan e-posta gönder.', true);
+    });
   });
 
   // Birlikte çalışalım: konuyu forma taşı
