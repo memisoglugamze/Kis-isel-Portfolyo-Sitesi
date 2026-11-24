@@ -1,6 +1,6 @@
 ---
 name: portfolio-site
-description: Gamze İbrahimağaoğlu'nun Türkçe statik portfolyo sitesini (index.html, colors.css) düzenleme kuralları. İçerik, bölüm, proje kartı, renk, stil, form veya yayınlama değişikliklerinde kullan.
+description: Gamze İbrahimağaoğlu'nun Türkçe/İngilizce, açık/koyu temalı statik portfolyo sitesini (index.html, colors.css) düzenleme kuralları. İçerik, çeviri, bölüm, proje kartı, renk, tema, stil, form veya yayınlama değişikliklerinde kullan.
 ---
 
 # Portfolyo sitesi
@@ -18,18 +18,22 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 
 ## Dil ve içerik
 
-- Sitedeki tüm metinler Türkçe (`lang="tr"`). Hitap samimi "sen" diliyle, birinci tekil şahıstan yazılır.
+- Varsayılan dil Türkçe (`lang="tr"`); hitap samimi "sen" diliyle, birinci tekil şahıstan yazılır. Site ayrıca İngilizce gösterilebilir (başlıktaki TR/EN düğmesi, seçim `localStorage.lang`).
+- Çeviri yapısı: Türkçe metin HTML'de kalır; öğeye `data-i18n="anahtar"` (öznitelik için `data-i18n-attr="aria-label:anahtar"`) verilir ve İngilizcesi script'teki `STR.en` içine yazılır. Öğe yalnızca metin içermeli; karışık içerikte metni ayrı bir `<span data-i18n>` ile sar. JS'in ürettiği metinler `t('anahtar')` ile alınır ve hem `STR.tr` hem `STR.en` içinde bulunur. Yeni metin eklerken İngilizcesini de ekle.
+- `PROJECTS` öğelerinde metinler `tr` / `en` alt nesnelerindedir (`title`, `desc`, `tags`); kategori etiketi `cat.<cat>` anahtarından gelir. Dil değişince `renderProjects()` ve `renderDashboard()` yeniden çizilir.
+- İngilizce metinlerde Türkçe karakter kullanma (ör. "Istanbul"); özel isimler (kişi ve şirket adları) olduğu gibi kalır.
 - `.eyebrow` gibi `text-transform: uppercase` kullanan öğelerdeki İngilizce metinlere `lang="en"` ekle; yoksa Türkçe kuralla "i" harfi "İ" olur (ör. "BUSİNESS").
-- Hata ve durum mesajları da Türkçe olmalı.
+- Hata ve durum mesajları her iki dilde de olmalı; `.err::before` ön eki `:lang(en)` ile "Error: " olur.
 - Kişisel bilgileri (deneyim, eğitim, iletişim) kullanıcı istemedikçe değiştirme ve uydurma.
 
 ## Stil kuralları
 
-- Renk kodu yazma; `var(--c-950)`, `var(--c-400)`, `var(--text-muted)`, `var(--danger)` gibi değişkenleri kullan. Yeni renk gerekirse önce `colors.css` dosyasına ekle.
-- İstisnalar `<meta name="theme-color">` ve `<link rel="icon">` içindeki SVG favicon'dur; palet değişirse bunları `--c-950` / `--c-400` ile eşitle.
+- Renk kodu yazma; `var(--c-950)`, `var(--c-400)`, `var(--text-muted)`, `var(--danger)` gibi değişkenleri kullan. Yeni renk gerekirse önce `colors.css` dosyasına, hem koyu (`:root`) hem açık (`:root[data-theme="light"]`) temaya ekle.
+- Tema: `data-theme="light" | "dark"` `<html>` üzerindedir; `<head>` içindeki küçük script kayıtlı seçimi (`localStorage.theme`) veya cihaz tercihini boyamadan önce uygular. Açık temada ölçek ters çevrilir (`--c-950` zemin, `--c-100` metin). Pano grafikleri `--chart-fin` / `--chart-bi` kullanır.
+- İstisnalar `<meta name="theme-color">` ve `<link rel="icon">` içindeki SVG favicon'dur. `theme-color` tema değişince script tarafından `--c-950` değerine eşitlenir; palet değişirse HTML'deki ilk değeri ve favicon'u koyu temadaki `--c-950` / `--c-400` ile eşitle.
 - Boşluk için `--sp-1`…`--sp-9`, yazı boyutu için `--fs-*`, köşe için `--radius`, süre için `--dur-fast` / `--dur-mid` kullan.
 - Başlıklar `--font-display`, gövde metni `--font-body` kullanır.
-- Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür.
+- Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür. Üst menü `1199px` altında hamburger menüye döner (JS'teki `mq` ile aynı); menüye öğe eklersen 1200px'te iki dilde de tek satıra sığdığını kontrol et.
 - Animasyonlarda yalnızca `transform` ve `opacity` kullan; `prefers-reduced-motion` bloğu korunmalı.
 
 ## Erişilebilirlik
@@ -44,8 +48,8 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 - Her bölüm `<section id="...">` içinde `.wrap` kullanır; başlık `.sec-head` içinde `.eyebrow` + `h2` ile yazılır. Bölüm numaraları (01, 02…) CSS sayacıyla otomatik gelir, elle yazma.
 - Yeni bölüm eklerken `nav.main` içine aynı `href="#id"` bağlantısını ekle; aktif menü vurgusu bu eşleşmeye bağlıdır.
 - Görünürken beliren öğelere `reveal` sınıfı ver.
-- Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `title`, `cat`, `label`, `desc`, `tags` (Yetenekler bölümündeki araç/yetkinliklerden) ve `topic` alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle ve `CAT_ICONS` anahtarıyla eşleşmeli; yeni kategori eklenirse filtre düğmesini ve ikonunu da ekle. Filtre sayaçları otomatik hesaplanır.
-- "Birlikte çalışalım" kartlarındaki ve `PROJECTS` öğelerindeki `data-topic` / `topic` değerleri, iletişim formundaki `#topic` seçeneklerinin metniyle birebir aynı olmalı. Tıklamalar `document` üzerinde yetkilendirmeyle dinlenir; dinamik öğelere ayrıca olay bağlama.
+- Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `cat`, `topic` ve `tr` / `en` alt nesnelerinde `title`, `desc`, `tags` (Yetenekler bölümündeki araç/yetkinliklerden) alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle, `CAT_ICONS` anahtarıyla ve `cat.<cat>` çeviri anahtarıyla eşleşmeli; yeni kategori eklenirse filtre düğmesini, ikonunu ve çevirisini de ekle. Filtre sayaçları otomatik hesaplanır.
+- "Birlikte çalışalım" kartlarındaki ve `PROJECTS` öğelerindeki `data-topic` / `topic` değerleri, iletişim formundaki `#topic` seçeneklerinin `value` değeriyle birebir aynı olmalı (değerler Türkçe sabit anahtardır; görünen metin dile göre çevrilir). Tıklamalar `document` üzerinde yetkilendirmeyle dinlenir; dinamik öğelere ayrıca olay bağlama.
 - Pano (`#dashboard`) verileri script'teki `CAREER` dizisinden (`role`, `org`, `start`/`end` `YYYY-MM`, `end: null` = günümüz, `track: 'fin' | 'bi'`) ve `PROJECTS` dizisinden hesaplanır. Deneyim bölümü değişirse `CAREER` dizisini de güncelle. KPI'lardaki HTML değerleri yalnızca JS kapalıyken görünen yedek değerlerdir. Uydurma metrik ekleme; yeni rakamları kullanıcıdan al.
 - DOM'a içerik eklerken `innerHTML` yerine `textContent` / `createElement` kullan.
 
@@ -61,7 +65,7 @@ Değişiklikten sonra yerel sunucuyla kontrol et:
 python3 -m http.server 8000
 ```
 
-`http://localhost:8000` adresinde masaüstü ve 375px mobil genişlikte; menü, proje filtreleri, form hataları ve tarayıcı konsolunda hata olmadığını kontrol et.
+`http://localhost:8000` adresinde masaüstü ve 375px mobil genişlikte; menü, proje filtreleri, form hataları ve tarayıcı konsolunda hata olmadığını kontrol et. Metin veya renk değiştiyse her iki dilde ve her iki temada da kontrol et. Yerel sunucuda tarayıcı `colors.css` dosyasını önbellekten verebilir; değişiklik görünmüyorsa sayfayı önbelleksiz yenile.
 
 ## Git ve yayın
 

@@ -17,6 +17,7 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 ## İçerik ve özellikler
 
 - Kariyer panosu: KPI kartları, kariyer zaman çizelgesi, deneyim dağılımı ve projeleri filtreleyen çalışma alanı grafiği
+- Türkçe/İngilizce dil seçeneği ve açık/koyu tema (seçimler tarayıcıda hatırlanır; tema ilk açılışta cihaz tercihine uyar)
 - Hakkımda, yetenekler, deneyim ve eğitim bölümleri
 - Kategori filtreleriyle çalışma alanları
 - Mobil gezinme menüsü ve duyarlı sayfa düzeni
@@ -36,8 +37,8 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 
 ## Özelleştirme
 
-- Metinleri ve proje/çalışma alanı kartlarını `index.html` içinde güncelleyin.
+- Metinleri ve proje/çalışma alanı kartlarını `index.html` içinde güncelleyin. Türkçe metin HTML'de durur; İngilizcesi script'teki `STR.en` sözlüğünde, kartlarınki `PROJECTS` içindeki `en` alanındadır. Bir metni değiştirirseniz İngilizcesini de güncelleyin.
 - Yeni bir iş deneyimi eklerseniz hem "Deneyim" bölümünü hem de script'teki `CAREER` dizisini güncelleyin; pano süreleri bu diziden hesaplanır.
-- Renkleri `colors.css` dosyasındaki CSS değişkenlerinden düzenleyin.
+- Renkleri `colors.css` dosyasındaki CSS değişkenlerinden düzenleyin; koyu tema `:root`, açık tema `:root[data-theme="light"]` bloğundadır.
 - Profil görselini değiştirecekseniz en az 640×640 piksel kare bir görseli `profile.jpeg` adıyla kaydedin ve `index.html` içindeki `width`/`height` değerlerini görselin boyutuyla eşleştirin. Görsel CSS ile yuvarlak gösterilir.
 - Form alanı eklerseniz `name` özniteliği verin; Netlify yalnızca HTML'de tanımlı alanları kaydeder.

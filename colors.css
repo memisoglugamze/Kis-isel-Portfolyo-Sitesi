@@ -1,5 +1,6 @@
 /* Project color palette — use these variables everywhere instead of hardcoded colors. */
 :root {
+  color-scheme: dark;
   --c-950: #051F20;
   --c-900: #0B2B26;
   --c-800: #163832;
@@ -11,4 +12,22 @@
   --text-muted: color-mix(in srgb, var(--c-100) 40%, var(--c-400));
   /* Error state; intentionally outside the palette for visibility */
   --danger: #F2B8B5;
+  /* Dashboard chart series */
+  --chart-fin: var(--c-100);
+  --chart-bi: var(--c-400);
+}
+
+/* Light theme: same green palette, lightness scale inverted (950 = page background, 100 = text) */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-950: #F2F8F3;
+  --c-900: #FFFFFF;
+  --c-800: #E2EFE5;
+  --c-700: #B5D0BD;
+  --c-400: #235347;
+  --c-100: #051F20;
+  --text-muted: #46655C;
+  --danger: #B3261E;
+  --chart-fin: #8EB69B;
+  --chart-bi: #163832;
 }
