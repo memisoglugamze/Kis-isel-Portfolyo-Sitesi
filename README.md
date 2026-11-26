@@ -31,9 +31,7 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 
 - `index.html` — Sayfa içeriği, stiller ve etkileşimler
 - `colors.css` — Ortak renk paleti
-- `profile.jpeg` — Hero bölümündeki yuvarlak profil fotoğrafı (680×680, `profile-original.jpeg` dosyasından kırpıldı)
-- `profile-original.jpeg` — Profil fotoğrafının orijinali (768×1024)
-- `shared-image.jpeg` — Önceki profil fotoğrafının orijinali (1500×2000, sitede kullanılmıyor)
+- `profile.jpeg` — Hero bölümündeki yuvarlak profil fotoğrafı (680×680)
 
 ## Özelleştirme
 
