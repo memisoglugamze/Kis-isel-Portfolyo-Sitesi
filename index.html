@@ -384,7 +384,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   <section class="hero" id="top">
     <div class="wrap hero-grid">
       <div>
-        <p class="status-pill" data-i18n="hero.pill">Yeni iş birliklerine açığım</p>
+        <p class="status-pill" id="statusPill" data-i18n="hero.pill">Yeni iş birliklerine açığım</p>
         <p class="eyebrow" lang="en">Business Intelligence &amp; Data Warehouse Developer</p>
         <h1><span data-i18n="hero.hi">Merhaba, ben</span> <span>Gamze İbrahimağaoğlu</span></h1>
         <p class="lead" data-i18n="hero.lead">Veriyi yalnızca raporlamıyor, anlamlandırıp öngörüye dönüştürüyorum. Finans kökenli altyapım ve 8+ yıllık kurumsal deneyimimle sağlam, ölçeklenebilir veri ambarı çözümleri kuruyorum.</p>
@@ -620,8 +620,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
           <a href="https://github.com/memisoglugamze" target="_blank" rel="noopener noreferrer">github.com/memisoglugamze</a>
         </div>
       </div>
-      <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate class="reveal" aria-describedby="formStatus">
-        <input type="hidden" name="form-name" value="contact">
+      <form id="contactForm" novalidate class="reveal" aria-describedby="formStatus">
         <p hidden><label>Bu alanı boş bırak: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field">
           <label for="name"><span data-i18n="form.name">Adın</span> <span class="req" aria-hidden="true">*</span></label>
@@ -686,9 +685,8 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'err.message': 'Mesajın en az 10 karakter olmalı.',
       'send': 'Gönder', 'sending': 'Gönderiliyor…',
       'sent': 'Teşekkürler! Mesajın bana ulaştı, en kısa sürede dönüş yapacağım.',
-      'sendFail': 'Mesajın gönderilemedi. Biraz sonra tekrar dene ya da bana doğrudan e-posta gönder.',
       'mail.subject': 'Portfolyo sitesinden mesaj',
-      'mailOpened': 'E-posta uygulaman mesajınla birlikte açıldı; göndermek için oradan "Gönder"e bas. Uygulama açılmadıysa memisoglugamze@gmail.com adresine doğrudan yazabilirsin.',
+      'mailOpened': 'Mesajın şu an kaydedilemedi; bu yüzden e-posta uygulaman mesajınla birlikte açıldı. Göndermek için oradan "Gönder"e bas. Uygulama açılmadıysa memisoglugamze@gmail.com adresine doğrudan yazabilirsin.',
       'graph.pick': 'Bir nokta seç',
       'graph.pickHint': 'Grafikteki bir noktaya tıkla ya da Tab tuşuyla seç. Bağlantıları ve ilgili site burada görünür.',
       'graph.stats': function (n, e) { return n + ' nokta · ' + e + ' bağlantı'; },
@@ -781,9 +779,8 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'err.message': 'Your message must be at least 10 characters.',
       'send': 'Send', 'sending': 'Sending…',
       'sent': 'Thank you! Your message has reached me and I’ll get back to you as soon as possible.',
-      'sendFail': 'Your message couldn’t be sent. Please try again later or email me directly.',
       'mail.subject': 'Message from the portfolio site',
-      'mailOpened': 'Your email app has opened with your message; press “Send” there to send it. If it didn’t open, you can write to memisoglugamze@gmail.com directly.',
+      'mailOpened': 'Your message couldn’t be saved right now, so your email app has opened with your message. Press “Send” there to send it. If it didn’t open, you can write to memisoglugamze@gmail.com directly.',
       'graph.title': 'My knowledge graph',
       'graph.intro': 'Connections between my tools, skills, work areas and organizations. Click a point to see its connections and related site.',
       'graph.aria': 'Knowledge graph',
@@ -836,7 +833,10 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       tr: { title: 'Dokümantasyon, Yönetişim ve Güvenlik', desc: 'Süreç dokümantasyonu, veri yönetişimi, veri güvenliği ve yetkilendirme çalışmalarını yürütüyorum.', tags: ['Veri Yönetişimi', 'Yetkilendirme', 'Dokümantasyon'] },
       en: { title: 'Documentation, Governance and Security', desc: 'I run process documentation, data governance, data security and access control work.', tags: ['Data Governance', 'Access Control', 'Documentation'] } }
   ];
-  function P(p) { return p[lang] || p.tr; }
+  function P(p) { return (lang === 'en' && p.en) || p.tr; }
+  // Firebase (Firestore REST): apiKey gizli değildir, erişimi firestore.rules belirler
+  var FB = { projectId: 'kisiselportfolyositesi', apiKey: 'AIzaSyAckif02ihskj_bIBltjt7c_iZh7je8KOY' };
+  var FS_DOCS = 'https://firestore.googleapis.com/v1/projects/' + FB.projectId + '/databases/(default)/documents';
   var CAT_ICONS = {
     veri: ['M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z', 'M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6', 'M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6'],
     analitik: ['M4 20h16', 'M7 16v-5', 'M12 16V6', 'M17 16v-8'],
@@ -871,11 +871,15 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   var countEl = document.getElementById('projCount');
   var current = 'all';
 
-  document.querySelectorAll('.filter').forEach(function (btn) {
-    var f = btn.getAttribute('data-filter');
-    var n = PROJECTS.filter(function (p) { return f === 'all' || p.cat === f; }).length;
-    btn.appendChild(el('span', 'count', String(n)));
-  });
+  function updateFilterCounts() {
+    document.querySelectorAll('.filter').forEach(function (btn) {
+      var f = btn.getAttribute('data-filter');
+      var n = PROJECTS.filter(function (p) { return f === 'all' || p.cat === f; }).length;
+      var badge = btn.querySelector('.count') || btn.appendChild(el('span', 'count'));
+      badge.textContent = String(n);
+    });
+  }
+  updateFilterCounts();
 
   function renderProjects() {
     var list = PROJECTS.filter(function (p) { return current === 'all' || p.cat === current; });
@@ -958,14 +962,13 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     ticks.appendChild(tick);
   }
 
-  var cats = [];
-  PROJECTS.forEach(function (p) {
-    var found = cats.filter(function (c) { return c.cat === p.cat; })[0];
-    if (found) found.count++; else cats.push({ cat: p.cat, count: 1 });
-  });
-  var maxCount = Math.max.apply(null, cats.map(function (c) { return c.count; }));
-
   function renderDashboard() {
+    var cats = [];
+    PROJECTS.forEach(function (p) {
+      var found = cats.filter(function (c) { return c.cat === p.cat; })[0];
+      if (found) found.count++; else cats.push({ cat: p.cat, count: 1 });
+    });
+    var maxCount = Math.max.apply(null, cats.map(function (c) { return c.count; }).concat(1));
     document.getElementById('kpiTotal').textContent = Math.floor(totalMonths / 12) + '+ ' + t('years');
     document.getElementById('kpiBi').textContent = Math.floor(monthsByTrack.bi / 12) + '+ ' + t('years');
 
@@ -1033,12 +1036,12 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     { id: 'linkedin', g: 'profile', label: 'LinkedIn', url: LINKEDIN, sec: '#contact' },
     { id: 'github', g: 'profile', label: 'GitHub', detail: 'github.com/memisoglugamze', url: 'https://github.com/memisoglugamze', sec: '#contact' },
     { id: 'email', g: 'profile', label: { tr: 'E-posta', en: 'Email' }, detail: 'memisoglugamze@gmail.com', url: 'mailto:memisoglugamze@gmail.com', sec: '#contact' },
-    { id: 'a1', g: 'area', proj: 0, label: { tr: 'DWH Tasarımı', en: 'DWH Design' }, sec: '#projects' },
-    { id: 'a2', g: 'area', proj: 1, label: 'ETL (ODI)', sec: '#projects' },
-    { id: 'a3', g: 'area', proj: 2, label: { tr: 'Performans', en: 'Performance' }, sec: '#projects' },
-    { id: 'a4', g: 'area', proj: 3, label: { tr: 'Veri Kalitesi', en: 'Data Quality' }, sec: '#projects' },
-    { id: 'a5', g: 'area', proj: 4, label: { tr: 'Raporlama', en: 'Reporting' }, sec: '#projects' },
-    { id: 'a6', g: 'area', proj: 5, label: { tr: 'Yönetişim & Güvenlik', en: 'Governance & Security' }, sec: '#projects' },
+    { id: 'a1', g: 'area', label: { tr: 'DWH Tasarımı', en: 'DWH Design' }, detail: { tr: 'Veri Modelleme ve DWH Tasarımı', en: 'Data Modeling and DWH Design' }, sec: '#projects' },
+    { id: 'a2', g: 'area', label: 'ETL (ODI)', detail: { tr: 'ETL ve Veri Hatları (ODI)', en: 'ETL and Data Pipelines (ODI)' }, sec: '#projects' },
+    { id: 'a3', g: 'area', label: { tr: 'Performans', en: 'Performance' }, detail: { tr: 'Performans Optimizasyonu', en: 'Performance Optimization' }, sec: '#projects' },
+    { id: 'a4', g: 'area', label: { tr: 'Veri Kalitesi', en: 'Data Quality' }, detail: { tr: 'Veri Kalitesi ve Anomali Tespiti', en: 'Data Quality and Anomaly Detection' }, sec: '#projects' },
+    { id: 'a5', g: 'area', label: { tr: 'Raporlama', en: 'Reporting' }, detail: { tr: 'Raporlama ve Karar Destek', en: 'Reporting and Decision Support' }, sec: '#projects' },
+    { id: 'a6', g: 'area', label: { tr: 'Yönetişim & Güvenlik', en: 'Governance & Security' }, detail: { tr: 'Dokümantasyon, Yönetişim ve Güvenlik', en: 'Documentation, Governance and Security' }, sec: '#projects' },
     { id: 'sql', g: 'tool', label: 'SQL', sec: '#skills' },
     { id: 'db', g: 'tool', label: { tr: 'Veritabanları', en: 'Databases' }, sec: '#skills' },
     { id: 'odi', g: 'tool', label: 'ODI', detail: 'Oracle Data Integrator', url: 'https://www.oracle.com/middleware/technologies/data-integrator.html', sec: '#skills' },
@@ -1065,7 +1068,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   GX_NODES.forEach(function (n) { gxById[n.id] = n; });
   function gxText(v) { return v == null ? '' : (typeof v === 'string' ? v : (v[lang] || v.tr)); }
   function gxLabel(n) { return gxText(n.label); }
-  function gxDetail(n) { return n.proj != null ? P(PROJECTS[n.proj]).title : gxText(n.detail); }
+  function gxDetail(n) { return gxText(n.detail); }
   function gxNeighbors(id) {
     return GX_EDGES.filter(function (e) { return e[0] === id || e[1] === id; })
       .map(function (e) { return gxById[e[0] === id ? e[1] : e[0]]; });
@@ -1319,27 +1322,34 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       statusEl.hidden = false;
       statusEl.focus();
     }
-    if (!/\.netlify\.app$/.test(location.hostname)) {
-      // Netlify dışı yayın (Firebase vb.): Netlify Forms yok; ziyaretçinin e-posta uygulamasını doldurulmuş mesajla aç
+    function openMail() {
       var topicSel = document.getElementById('topic');
       var subject = topicSel.value ? topicSel.options[topicSel.selectedIndex].text : t('mail.subject');
       var body = form.elements.message.value.trim() + '\n\n— ' + form.elements.name.value.trim() + ' <' + form.elements.email.value.trim() + '>';
       location.href = 'mailto:memisoglugamze@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       showStatus(t('mailOpened'), false);
-      return;
     }
-    // Netlify Forms gönderimi; form yayın sırasında HTML'deki data-netlify özniteliğinden algılanır
-    fetch('/', {
+    // Spam botu gizli alanı doldurduysa hiçbir şey gönderme ama başarılı gibi görün
+    if (form.elements['bot-field'].value) { form.reset(); showStatus(t('sent'), false); return; }
+    // Mesaj Firestore'daki messages koleksiyonuna yazılır (kurallar: firestore.rules); başarısız olursa e-posta uygulaması açılır
+    var fields = {
+      name: { stringValue: form.elements.name.value.trim() },
+      email: { stringValue: form.elements.email.value.trim() },
+      message: { stringValue: form.elements.message.value.trim() },
+      lang: { stringValue: lang },
+      read: { booleanValue: false },
+      createdAt: { timestampValue: new Date().toISOString() }
+    };
+    if (form.elements.topic.value) fields.topic = { stringValue: form.elements.topic.value };
+    fetch(FS_DOCS + '/messages?key=' + FB.apiKey, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString()
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: fields })
     }).then(function (res) {
       if (!res.ok) throw new Error(res.status);
       form.reset();
       showStatus(t('sent'), false);
-    }).catch(function () {
-      showStatus(t('sendFail'), true);
-    });
+    }).catch(openMail);
   });
 
   // Birlikte çalışalım ve proje kartları: konuyu forma taşı (kartlar yeniden çizildiği için olay yetkilendirme)
@@ -1354,6 +1364,48 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   document.getElementById('year').textContent = new Date().getFullYear();
   applyLang();
   updateActive();
+
+  // Admin panelinde düzenlenen içerik (Firestore content/site): HTML'deki varsayılanların üzerine yazılır.
+  // Yüklenemezse sayfa HTML'deki içerikle çalışmaya devam eder.
+  function fsVal(v) {
+    if ('stringValue' in v) return v.stringValue;
+    if ('booleanValue' in v) return v.booleanValue;
+    if ('integerValue' in v) return Number(v.integerValue);
+    if ('doubleValue' in v) return v.doubleValue;
+    if ('timestampValue' in v) return v.timestampValue;
+    if ('arrayValue' in v) return (v.arrayValue.values || []).map(fsVal);
+    if ('mapValue' in v) {
+      var o = {}, f = v.mapValue.fields || {};
+      Object.keys(f).forEach(function (k) { o[k] = fsVal(f[k]); });
+      return o;
+    }
+    return null;
+  }
+  function applyRemote(c) {
+    // texts anahtarları i18n anahtarlarının '.' yerine '_' ile yazılmış hâlidir (Firestore alan adı kısıtı)
+    Object.keys(c.texts || {}).forEach(function (k) {
+      var v = c.texts[k] || {}, key = k.replace(/_/g, '.');
+      if (v.tr) STR.tr[key] = v.tr;
+      if (v.en) STR.en[key] = v.en;
+    });
+    if (c.status) {
+      if (c.status.tr) STR.tr['hero.pill'] = c.status.tr;
+      if (c.status.en) STR.en['hero.pill'] = c.status.en;
+      document.getElementById('statusPill').hidden = c.status.open === false;
+    }
+    var list = (c.projects || []).filter(function (p) {
+      return p && CAT_ICONS[p.cat] && p.tr && p.tr.title;
+    }).map(function (p) {
+      return { cat: p.cat, topic: p.topic || '', tr: { title: p.tr.title, desc: p.tr.desc || '', tags: p.tr.tags || [] },
+        en: p.en && p.en.title ? { title: p.en.title, desc: p.en.desc || '', tags: p.en.tags || [] } : null };
+    });
+    if (list.length) { PROJECTS = list; updateFilterCounts(); }
+    applyLang();
+  }
+  fetch(FS_DOCS + '/content/site?key=' + FB.apiKey, { cache: 'no-store' })
+    .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+    .then(function (doc) { applyRemote(fsVal({ mapValue: { fields: doc.fields || {} } })); })
+    .catch(function () {});
 
   // Görünürlükte beliren öğeler
   var reveals = document.querySelectorAll('.reveal');

@@ -9,7 +9,9 @@ Build adımı olmayan, tek sayfalık statik bir site. İki yerde yayınlanır: N
 
 ## Dosyalar
 
-- `index.html`: Tüm HTML, CSS (`<style>`) ve JavaScript (`<script>`) bu dosyadadır. Ayrı CSS/JS dosyası, framework veya paket ekleme.
+- `index.html`: Ana sitenin tüm HTML, CSS (`<style>`) ve JavaScript (`<script>`) kodu bu dosyadadır. Ayrı CSS/JS dosyası, framework veya paket ekleme. Ana site Firebase SDK yüklemez; Firestore'a REST ile (`FS_DOCS`, `FB.apiKey`) bağlanır.
+- `admin.html`: Admin paneli; kendi `<style>` ve `<script type="module">` kodu vardır. Firebase JS SDK yalnızca burada, gstatic CDN'den sabit sürümle (`13.4.0`) yüklenir. Arayüz yalnızca Türkçedir.
+- `firestore.rules`: Firestore güvenlik kuralları. Admin yetkisi `isAdmin()` içindeki sabit UID'ye bağlıdır (memisoglugamze@gmail.com hesabı); `admin.html`'deki `ADMIN_UID` ile aynı olmalı. Herkes e-posta/şifreyle hesap açabildiği için yetkiyi asla `request.auth != null` ile verme.
 - `colors.css`: Renk paleti. Bütün renkler buradaki CSS değişkenlerinden gelir.
 - `profile.jpeg`: Hero bölümündeki profil fotoğrafı; 680×680 kare kesit, CSS ile yuvarlak (`border-radius: 50%`) ve en fazla 320px gösterilir. Retina netliği için en az 640px kare olmalı; büyütülerek üretme.
 - Yeni profil fotoğrafı gelirse baş ve omuzları ortalayan kare bir kesiti `sips -c <boy> <en> --cropOffset <y> <x>` ile kırp ve `profile.jpeg` olarak kaydet. Gelen görselin uzantısına güvenme; `file` ile gerçek formatı kontrol et ve JPEG'e çevir. Orijinal dosyalar depoda tutulmaz.
@@ -55,7 +57,14 @@ Build adımı olmayan, tek sayfalık statik bir site. İki yerde yayınlanır: N
 
 ## İletişim formu
 
-Netlify'da (`location.hostname` `.netlify.app` ile bitiyorsa) form Netlify Forms ile gönderilir (`name="contact"`, `data-netlify="true"`, `bot-field` honeypot). Script `fetch('/')` ile urlencoded POST yapar; `form-name` gizli alanı kaldırılmamalı. Yeni alanlar statik HTML'de `name` ile tanımlanmalı, yoksa Netlify kaydetmez. Diğer tüm adreslerde (Firebase, yerel sunucu) Netlify Forms yoktur; "Gönder" doldurulmuş bir `mailto:` bağlantısı açar ve `mailOpened` mesajını gösterir. Netlify'a özel alan adı bağlanırsa bu hostname kontrolünü de güncelle. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır. Gönderim hatasında `#formStatus` öğesine `is-error` sınıfı eklenir.
+Form her adreste mesajı Firestore REST API ile `messages` koleksiyonuna yazar (`name`, `email`, `message`, isteğe bağlı `topic`, `lang`, `read: false`, istemci saatiyle `createdAt`). `firestore.rules` içindeki `isValidMessage` alan listesini, uzunlukları, e-posta biçimini ve `createdAt`'in ±15 dakika içinde olmasını denetler; form alanı eklersen kurala da ekle. Kayıt başarısız olursa doldurulmuş bir `mailto:` açılır ve `mailOpened` mesajı gösterilir. `bot-field` gizli alanı doluysa hiçbir şey gönderilmez. Netlify Forms artık kullanılmıyor. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır.
+
+## Admin içeriği (Firestore `content/site`)
+
+- Admin panelinde düzenlenen içerik tek belgede tutulur: `status` (`open`, `tr`, `en`), `texts` (anahtarlar i18n anahtarının `.` yerine `_` ile yazılmış hâli, ör. `about_p1`; değerler `{tr, en}`) ve `projects` (`PROJECTS` ile aynı yapı).
+- `index.html` sayfa açılınca belgeyi okur (`applyRemote`) ve `STR`, `PROJECTS` ve `#statusPill` üzerine yazar; okunamazsa HTML'deki varsayılanlar kalır. Koddaki bir metni değiştirdiğinde belgedeki değer onu ezeceği için belgeyi de güncelle ya da kullanıcıya admin panelinden güncellemesini söyle.
+- Panelde düzenlenebilen metin anahtarları `admin.html`'deki `TEXT_KEYS` listesindedir; yeni anahtar eklersen sitede `data-i18n` ve `STR.en` karşılığı olmalı. Kategori ve konu seçenekleri (`CATS`, `TOPICS`) sitedeki filtrelerle ve `#topic` seçenekleriyle aynı olmalı.
+- Graphify grafiği `PROJECTS`'ten bağımsızdır; panelde kart eklemek grafiği değiştirmez.
 
 ## Doğrulama
 
@@ -72,5 +81,5 @@ python3 -m http.server 8000
 - Uzak depo: `https://github.com/memisoglugamze/Kis-isel-Portfolyo-Sitesi.git`, dal `main`.
 - Varsayılan git kimliği iş hesabıdır ve bu depoya yazamaz. Push için kişisel `memisoglugamze` hesabı gerekir; global git ayarlarını veya VS Code oturumunu değiştirme.
 - `main` dalına yapılan her push Netlify'da otomatik yayına çıkar.
-- Firebase Hosting otomatik değildir: proje `kisiselportfolyositesi`, site `gamzeagaoglu` (`.firebaserc`, `firebase.json`). Değişiklikten sonra kişisel `memisoglugamze@gmail.com` hesabıyla `firebase login` yapılmış CLI ile `firebase deploy --only hosting` çalıştır; kullanıcı istemedikçe yalnızca Netlify'a push yetmez, iki siteyi de güncel tut. Bu makinede global Node/Firebase CLI yoktur ve Apple Silicon'da Firebase'in tek dosyalık CLI'ı çalışmaz; geçici bir klasöre taşınabilir Node indirip `firebase-tools`'u oraya kur, sisteme kurulum yapma.
+- Firebase Hosting otomatik değildir: proje `kisiselportfolyositesi`, site `gamzeagaoglu` (`.firebaserc`, `firebase.json`). Değişiklikten sonra kişisel `memisoglugamze@gmail.com` hesabıyla `firebase login` yapılmış CLI ile `firebase deploy --only hosting` çalıştır; `firestore.rules` değiştiyse `firebase deploy --only firestore:rules` da çalıştır ve kuralları anonim REST istekleriyle (izinli/yasaklı durumlar) test et. Kullanıcı istemedikçe yalnızca Netlify'a push yetmez, iki siteyi de güncel tut. Bu makinede global Node/Firebase CLI yoktur ve Apple Silicon'da Firebase'in tek dosyalık CLI'ı çalışmaz; geçici bir klasöre taşınabilir Node indirip `firebase-tools`'u oraya kur, sisteme kurulum yapma.
 - `firebase.json` içindeki `ignore` listesindeki `**/.*/**` kuralı `.git` ve `.github` klasörlerinin yayınlanmasını engeller; kaldırma. Yayından sonra `https://gamzeagaoglu.web.app/.git/HEAD` adresinin 404 verdiğini kontrol et. Yayın sırasında oluşan `firebase-debug.log` dosyasını sil (`.gitignore`'da).

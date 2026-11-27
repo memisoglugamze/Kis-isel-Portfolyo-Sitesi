@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#051F20">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="colors.css">
+<title>Admin paneli — Gamze İbrahimağaoğlu</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23051F20'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-size='40' font-weight='700' fill='%238EB69B'%3EG%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  --fs-small: 0.9375rem;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+  --radius: 8px;
+  --dur-fast: 200ms;
+}
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--c-950); color: var(--c-100); font: 400 1rem/1.6 var(--font-body); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; margin: 0; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--c-400); outline-offset: 3px; border-radius: 4px; }
+.wrap { width: min(960px, 100% - 2 * var(--sp-5)); margin-inline: auto; }
+header.bar { border-bottom: 1px solid var(--c-800); }
+header.bar .wrap { min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+header.bar h1 { font-size: 1.375rem; }
+header.bar h1 b { color: var(--c-400); font-weight: 600; }
+.bar-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+.who { color: var(--text-muted); font-size: var(--fs-small); }
+main { padding-block: var(--sp-6) var(--sp-7); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 44px; padding-inline: var(--sp-5); border-radius: var(--radius); font: 600 var(--fs-small)/1 var(--font-body); text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background var(--dur-fast) ease-out, border-color var(--dur-fast) ease-out; }
+.btn-primary { background: var(--c-400); color: var(--c-950); }
+.btn-primary:hover { background: var(--c-100); }
+.btn-ghost { background: transparent; color: var(--c-100); border-color: var(--c-700); }
+.btn-ghost:hover { border-color: var(--c-400); background: var(--c-800); }
+.btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--c-800); }
+.btn[disabled] { opacity: 0.6; cursor: progress; }
+.card { background: var(--c-900); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5); }
+.login { max-width: 420px; margin: var(--sp-7) auto 0; display: grid; gap: var(--sp-4); }
+.login p { color: var(--text-muted); font-size: var(--fs-small); }
+.field { display: grid; gap: var(--sp-2); }
+label, legend { font-weight: 600; font-size: var(--fs-small); }
+input[type="text"], input[type="email"], input[type="password"], textarea, select { width: 100%; background: var(--c-950); color: var(--c-100); border: 1px solid var(--c-700); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); font: inherit; min-height: 44px; }
+textarea { min-height: 96px; resize: vertical; }
+input:hover, textarea:hover, select:hover { border-color: var(--c-400); }
+.check { display: flex; align-items: center; gap: var(--sp-3); min-height: 44px; font-weight: 600; }
+.check input { width: 22px; height: 22px; accent-color: var(--c-400); }
+.err { color: var(--danger); font-size: var(--fs-small); }
+.note { color: var(--text-muted); font-size: var(--fs-small); }
+.linkbtn { background: none; border: 0; padding: 0; min-height: 44px; color: var(--c-400); font: 600 var(--fs-small)/1 var(--font-body); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; justify-self: start; }
+.tabs { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-5); border-bottom: 1px solid var(--c-800); }
+.tab { min-height: 44px; padding-inline: var(--sp-4); background: transparent; color: var(--text-muted); border: 0; border-bottom: 3px solid transparent; font: 600 var(--fs-small)/1 var(--font-body); cursor: pointer; }
+.tab:hover { color: var(--c-100); }
+.tab[aria-selected="true"] { color: var(--c-100); border-bottom-color: var(--c-400); }
+.badge { display: inline-block; min-width: 1.6em; padding: 2px var(--sp-2); margin-left: var(--sp-1); border-radius: 999px; background: var(--c-400); color: var(--c-950); font-size: 0.8125rem; text-align: center; }
+.panel { display: grid; gap: var(--sp-4); }
+.panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.panel-head h2 { font-size: 1.5rem; }
+.msgs { display: grid; gap: var(--sp-3); list-style: none; margin: 0; padding: 0; }
+.msg { display: grid; gap: var(--sp-2); }
+.msg.is-unread { border-left: 4px solid var(--c-400); }
+.msg-head { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); align-items: baseline; }
+.msg-head strong { font-size: 1.0625rem; }
+.msg-meta { color: var(--text-muted); font-size: var(--fs-small); }
+.msg-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.row { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); }
+fieldset { border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-4); margin: 0; display: grid; gap: var(--sp-3); background: var(--c-900); }
+legend { padding-inline: var(--sp-2); }
+.toast { position: fixed; left: 50%; bottom: var(--sp-5); transform: translateX(-50%); max-width: calc(100% - 2 * var(--sp-5)); background: var(--c-800); color: var(--c-100); border: 1px solid var(--c-400); border-radius: var(--radius); padding: var(--sp-3) var(--sp-5); font-size: var(--fs-small); }
+.toast.is-error { border-color: var(--danger); }
+@media (max-width: 767px) {
+  .grid2 { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <h1>Admin <b>paneli</b></h1>
+    <div class="bar-actions">
+      <span class="who" id="who" hidden></span>
+      <a class="btn btn-ghost" href="./">Siteye dön</a>
+      <button class="btn btn-ghost" type="button" id="signOutBtn" hidden>Çıkış yap</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="note" id="loading">Yükleniyor…</p>
+
+  <form class="card login" id="loginView" hidden novalidate>
+    <h2>Giriş yap</h2>
+    <p>Bu sayfa yalnızca site sahibi içindir.</p>
+    <div class="field">
+      <label for="loginEmail">E-posta</label>
+      <input id="loginEmail" type="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="loginPass">Şifre</label>
+      <input id="loginPass" type="password" autocomplete="current-password" required>
+    </div>
+    <p class="err" id="loginErr" role="alert" hidden></p>
+    <button class="btn btn-primary" type="submit" id="loginBtn">Giriş yap</button>
+    <button class="linkbtn" type="button" id="resetBtn">Şifremi unuttum</button>
+  </form>
+
+  <div class="card login" id="deniedView" hidden>
+    <h2>Yetki yok</h2>
+    <p>Bu hesabın admin yetkisi yok. Farklı bir hesapla giriş yapmak için çıkış yap.</p>
+  </div>
+
+  <div id="appView" hidden>
+    <div class="tabs" role="tablist" aria-label="Admin bölümleri">
+      <button class="tab" type="button" role="tab" id="tab-messages" aria-controls="panel-messages" aria-selected="true">Mesajlar<span class="badge" id="unreadBadge" hidden></span></button>
+      <button class="tab" type="button" role="tab" id="tab-status" aria-controls="panel-status" aria-selected="false" tabindex="-1">Durum</button>
+      <button class="tab" type="button" role="tab" id="tab-texts" aria-controls="panel-texts" aria-selected="false" tabindex="-1">Metinler</button>
+      <button class="tab" type="button" role="tab" id="tab-projects" aria-controls="panel-projects" aria-selected="false" tabindex="-1">Çalışma alanları</button>
+    </div>
+
+    <section class="panel" id="panel-messages" role="tabpanel" aria-labelledby="tab-messages">
+      <div class="panel-head">
+        <h2>Gelen mesajlar</h2>
+        <button class="btn btn-ghost" type="button" id="refreshMsgs">Yenile</button>
+      </div>
+      <p class="note" id="msgsInfo"></p>
+      <ul class="msgs" id="msgList"></ul>
+    </section>
+
+    <section class="panel" id="panel-status" role="tabpanel" aria-labelledby="tab-status" hidden>
+      <div class="panel-head"><h2>Durum</h2></div>
+      <p class="note">Ana sayfadaki üst etiket (ör. "Yeni iş birliklerine açığım").</p>
+      <fieldset>
+        <legend>Durum etiketi</legend>
+        <label class="check"><input type="checkbox" id="statusOpen"> Etiketi sitede göster</label>
+        <div class="grid2">
+          <div class="field"><label for="statusTr">Türkçe metin</label><input type="text" id="statusTr" maxlength="80"></div>
+          <div class="field"><label for="statusEn">İngilizce metin</label><input type="text" id="statusEn" maxlength="80"></div>
+        </div>
+      </fieldset>
+      <div><button class="btn btn-primary" type="button" id="saveStatus">Durumu kaydet</button></div>
+    </section>
+
+    <section class="panel" id="panel-texts" role="tabpanel" aria-labelledby="tab-texts" hidden>
+      <div class="panel-head"><h2>Metinler</h2></div>
+      <p class="note">Boş bırakılan alanlarda sitedeki varsayılan metin kullanılır. İngilizce metinlerde Türkçe karakter kullanma.</p>
+      <div class="panel" id="textFields"></div>
+      <div><button class="btn btn-primary" type="button" id="saveTexts">Metinleri kaydet</button></div>
+    </section>
+
+    <section class="panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects" hidden>
+      <div class="panel-head">
+        <h2>Çalışma alanları</h2>
+        <button class="btn btn-ghost" type="button" id="addProject">Yeni çalışma alanı ekle</button>
+      </div>
+      <p class="note">Kartlar bu sırayla gösterilir. Etiketleri virgülle ayır. Türkçe başlık zorunludur; İngilizce boşsa İngilizce görünümde Türkçesi gösterilir. Bilgi grafiği (Graphify) bu listeden etkilenmez.</p>
+      <div class="panel" id="projList"></div>
+      <div><button class="btn btn-primary" type="button" id="saveProjects">Çalışma alanlarını kaydet</button></div>
+    </section>
+  </div>
+</main>
+
+<p class="toast" id="toast" role="status" hidden></p>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs, updateDoc, deleteDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
+
+// apiKey gizli değildir; yetki firestore.rules içindeki UID kontrolüyle sağlanır. ADMIN_UID yalnızca arayüz içindir.
+const app = initializeApp({
+  apiKey: 'AIzaSyAckif02ihskj_bIBltjt7c_iZh7je8KOY',
+  authDomain: 'kisiselportfolyositesi.firebaseapp.com',
+  projectId: 'kisiselportfolyositesi',
+  appId: '1:952954406156:web:6b0ad8b7ed92ff963b7529'
+});
+const ADMIN_UID = 'htvjoF7QtGRmG7b7wpKxHDA1Tb73';
+const auth = getAuth(app);
+const db = getFirestore(app);
+const contentRef = doc(db, 'content', 'site');
+
+// Düzenlenebilir metinler: anahtar = sitedeki data-i18n anahtarının '.' yerine '_' ile yazılmış hâli
+const TEXT_KEYS = [
+  ['hero_lead', 'Giriş metni (ana sayfa üstü)'],
+  ['dash_intro', 'Pano açıklaması'],
+  ['about_p1', 'Hakkımda — 1. paragraf'],
+  ['about_p2', 'Hakkımda — 2. paragraf'],
+  ['skills_intro', 'Yetenekler açıklaması'],
+  ['proj_intro', 'Çalışma alanları açıklaması'],
+  ['collab_intro', 'Birlikte çalışalım açıklaması'],
+  ['contact_intro', 'İletişim açıklaması']
+];
+const CATS = [['veri', 'Veri Altyapısı'], ['analitik', 'Analitik'], ['yonetisim', 'Yönetişim']];
+// Değerler sitedeki iletişim formu #topic seçenekleriyle birebir aynı olmalı
+const TOPICS = ['', 'Veri ambarı ve modelleme', 'BI ve raporlama', 'Veri kalitesi ve yönetişim', 'Finans ve kontrol odaklı analitik'];
+
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, text) {
+  const e = document.createElement(tag);
+  Object.entries(attrs || {}).forEach(([k, v]) => { if (k === 'className') e.className = v; else e.setAttribute(k, v); });
+  if (text != null) e.textContent = text;
+  return e;
+}
+let toastTimer;
+function toast(text, isError) {
+  const t = $('toast');
+  t.textContent = text;
+  t.classList.toggle('is-error', !!isError);
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 4000);
+}
+function show(view) {
+  ['loading', 'loginView', 'deniedView', 'appView'].forEach((v) => { $(v).hidden = v !== view; });
+}
+async function busy(btn, fn) {
+  btn.disabled = true;
+  try { await fn(); } finally { btn.disabled = false; }
+}
+
+// --- Giriş ---
+const AUTH_ERR = {
+  'auth/invalid-credential': 'E-posta ya da şifre hatalı.',
+  'auth/invalid-email': 'Geçerli bir e-posta adresi gir.',
+  'auth/too-many-requests': 'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.',
+  'auth/network-request-failed': 'Bağlantı kurulamadı. İnternet bağlantını kontrol et.'
+};
+$('loginView').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const err = $('loginErr');
+  err.hidden = true;
+  busy($('loginBtn'), async () => {
+    try {
+      await signInWithEmailAndPassword(auth, $('loginEmail').value.trim(), $('loginPass').value);
+      $('loginPass').value = '';
+    } catch (ex) {
+      err.textContent = AUTH_ERR[ex.code] || 'Giriş yapılamadı. Tekrar dene.';
+      err.hidden = false;
+    }
+  });
+});
+$('resetBtn').addEventListener('click', async () => {
+  const email = $('loginEmail').value.trim();
+  const err = $('loginErr');
+  if (!email) { err.textContent = 'Önce e-posta adresini yaz.'; err.hidden = false; $('loginEmail').focus(); return; }
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (ex) { /* hesabın var olup olmadığını belli etmemek için aynı mesaj gösterilir */ }
+  err.hidden = true;
+  toast('Bu adres kayıtlıysa şifre sıfırlama bağlantısı gönderildi.');
+});
+$('signOutBtn').addEventListener('click', () => signOut(auth));
+
+onAuthStateChanged(auth, async (user) => {
+  $('signOutBtn').hidden = !user;
+  $('who').hidden = !user;
+  $('who').textContent = user ? user.email : '';
+  if (!user) { show('loginView'); $('loginEmail').focus(); return; }
+  if (user.uid !== ADMIN_UID) { show('deniedView'); return; }
+  show('appView');
+  await Promise.all([loadContent(), loadMessages()]);
+});
+
+// --- Sekmeler ---
+const tabs = [...document.querySelectorAll('.tab')];
+function selectTab(tab, focus) {
+  tabs.forEach((t) => {
+    const on = t === tab;
+    t.setAttribute('aria-selected', String(on));
+    t.tabIndex = on ? 0 : -1;
+    $(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  if (focus) tab.focus();
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('keydown', (e) => {
+    const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
+  });
+});
+
+// --- Mesajlar ---
+const dateFmt = new Intl.DateTimeFormat('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+async function loadMessages() {
+  const list = $('msgList');
+  try {
+    const snap = await getDocs(query(collection(db, 'messages'), orderBy('createdAt', 'desc'), limit(200)));
+    list.textContent = '';
+    let unread = 0;
+    snap.forEach((d) => {
+      const m = d.data();
+      if (!m.read) unread++;
+      list.appendChild(renderMessage(d.id, m));
+    });
+    $('msgsInfo').textContent = snap.empty ? 'Henüz mesaj yok.' : snap.size + ' mesaj, ' + unread + ' okunmamış.';
+    $('unreadBadge').hidden = !unread;
+    $('unreadBadge').textContent = String(unread);
+    $('unreadBadge').setAttribute('aria-label', unread + ' okunmamış');
+  } catch (ex) {
+    $('msgsInfo').textContent = 'Mesajlar yüklenemedi: ' + (ex.code || ex.message);
+  }
+}
+function renderMessage(id, m) {
+  const li = el('li', { className: 'card msg' + (m.read ? '' : ' is-unread') });
+  const head = el('div', { className: 'msg-head' });
+  head.append(el('strong', null, m.name || '—'));
+  const mail = el('a', { href: 'mailto:' + (m.email || '') }, m.email || '');
+  head.append(mail);
+  const meta = [];
+  if (m.createdAt && m.createdAt.toDate) meta.push(dateFmt.format(m.createdAt.toDate()));
+  if (m.topic) meta.push(m.topic);
+  if (m.lang) meta.push(m.lang.toUpperCase());
+  if (!m.read) meta.push('Okunmadı');
+  li.append(head, el('p', { className: 'msg-meta' }, meta.join(' · ')), el('p', { className: 'msg-body' }, m.message || ''));
+  const row = el('div', { className: 'row' });
+  const toggle = el('button', { type: 'button', className: 'btn btn-ghost' }, m.read ? 'Okunmadı olarak işaretle' : 'Okundu olarak işaretle');
+  toggle.addEventListener('click', () => busy(toggle, async () => {
+    try { await updateDoc(doc(db, 'messages', id), { read: !m.read }); await loadMessages(); }
+    catch (ex) { toast('Güncellenemedi: ' + (ex.code || ex.message), true); }
+  }));
+  const reply = el('a', { className: 'btn btn-ghost', href: 'mailto:' + (m.email || '') + '?subject=' + encodeURIComponent('Re: ' + (m.topic || 'Portfolyo sitesinden mesaj')) }, 'Yanıtla');
+  const del = el('button', { type: 'button', className: 'btn btn-danger' }, 'Sil');
+  del.addEventListener('click', () => {
+    if (!confirm((m.name || 'Bu kişi') + ' adlı kişinin mesajı kalıcı olarak silinsin mi?')) return;
+    busy(del, async () => {
+      try { await deleteDoc(doc(db, 'messages', id)); toast('Mesaj silindi.'); await loadMessages(); }
+      catch (ex) { toast('Silinemedi: ' + (ex.code || ex.message), true); }
+    });
+  });
+  row.append(toggle, reply, del);
+  li.append(row);
+  return li;
+}
+$('refreshMsgs').addEventListener('click', (e) => busy(e.currentTarget, loadMessages));
+
+// --- İçerik (durum, metinler, çalışma alanları) ---
+let content = {};
+async function loadContent() {
+  try {
+    const snap = await getDoc(contentRef);
+    content = snap.exists() ? snap.data() : {};
+  } catch (ex) {
+    toast('İçerik yüklenemedi: ' + (ex.code || ex.message), true);
+    content = {};
+  }
+  const st = content.status || {};
+  $('statusOpen').checked = st.open !== false;
+  $('statusTr').value = st.tr || '';
+  $('statusEn').value = st.en || '';
+  renderTexts();
+  renderProjects(content.projects || []);
+}
+async function saveField(name, value, btn, okText) {
+  await busy(btn, async () => {
+    try {
+      await setDoc(contentRef, { [name]: value, updatedAt: serverTimestamp() }, { merge: true });
+      content[name] = value;
+      toast(okText);
+    } catch (ex) {
+      toast('Kaydedilemedi: ' + (ex.code || ex.message), true);
+    }
+  });
+}
+
+$('saveStatus').addEventListener('click', (e) => {
+  const tr = $('statusTr').value.trim(), en = $('statusEn').value.trim();
+  if (!tr) { toast('Türkçe durum metni boş olamaz.', true); $('statusTr').focus(); return; }
+  saveField('status', { open: $('statusOpen').checked, tr, en }, e.currentTarget, 'Durum kaydedildi. Sitede sayfa yenilenince görünür.');
+});
+
+function renderTexts() {
+  const box = $('textFields');
+  box.textContent = '';
+  const texts = content.texts || {};
+  TEXT_KEYS.forEach(([key, label]) => {
+    const fs = el('fieldset');
+    fs.append(el('legend', null, label));
+    const g = el('div', { className: 'grid2' });
+    ['tr', 'en'].forEach((l) => {
+      const id = 'txt-' + key + '-' + l;
+      const f = el('div', { className: 'field' });
+      const ta = el('textarea', { id, 'data-key': key, 'data-lang': l, maxlength: '2000' });
+      ta.value = (texts[key] && texts[key][l]) || '';
+      f.append(el('label', { for: id }, l === 'tr' ? 'Türkçe' : 'İngilizce'), ta);
+      g.append(f);
+    });
+    fs.append(g);
+    box.append(fs);
+  });
+}
+$('saveTexts').addEventListener('click', (e) => {
+  const texts = {};
+  document.querySelectorAll('#textFields textarea').forEach((ta) => {
+    const k = ta.dataset.key;
+    texts[k] = texts[k] || { tr: '', en: '' };
+    texts[k][ta.dataset.lang] = ta.value.trim();
+  });
+  saveField('texts', texts, e.currentTarget, 'Metinler kaydedildi. Sitede sayfa yenilenince görünür.');
+});
+
+let projSeq = 0;
+function projectEditor(p) {
+  const n = ++projSeq;
+  const fs = el('fieldset', { className: 'proj' });
+  const legend = el('legend', null, (p.tr && p.tr.title) || 'Yeni çalışma alanı');
+  fs.append(legend);
+  const sel = (id, label, options, value) => {
+    const f = el('div', { className: 'field' });
+    const s = el('select', { id });
+    options.forEach(([v, t]) => { const o = el('option', { value: v }, t); if (v === value) o.selected = true; s.append(o); });
+    f.append(el('label', { for: id }, label), s);
+    return f;
+  };
+  const inp = (id, label, value, multi) => {
+    const f = el('div', { className: 'field' });
+    const i = multi ? el('textarea', { id, maxlength: '600' }) : el('input', { id, type: 'text', maxlength: '120' });
+    i.value = value || '';
+    f.append(el('label', { for: id }, label), i);
+    return f;
+  };
+  const top = el('div', { className: 'grid2' });
+  top.append(
+    sel('p' + n + '-cat', 'Kategori', CATS, p.cat || 'veri'),
+    sel('p' + n + '-topic', '"Bu konuda konuşalım" konusu', TOPICS.map((t) => [t, t || 'Genel iletişim']), p.topic || '')
+  );
+  const tr = p.tr || {}, en = p.en || {};
+  const langs = el('div', { className: 'grid2' });
+  const colTr = el('div', { className: 'panel' }), colEn = el('div', { className: 'panel' });
+  colTr.append(inp('p' + n + '-trTitle', 'Türkçe başlık', tr.title), inp('p' + n + '-trDesc', 'Türkçe açıklama', tr.desc, true), inp('p' + n + '-trTags', 'Türkçe etiketler', (tr.tags || []).join(', ')));
+  colEn.append(inp('p' + n + '-enTitle', 'İngilizce başlık', en.title), inp('p' + n + '-enDesc', 'İngilizce açıklama', en.desc, true), inp('p' + n + '-enTags', 'İngilizce etiketler', (en.tags || []).join(', ')));
+  langs.append(colTr, colEn);
+  fs.append(top, langs);
+  const trTitle = colTr.querySelector('input');
+  trTitle.addEventListener('input', () => { legend.textContent = trTitle.value.trim() || 'Yeni çalışma alanı'; });
+  const row = el('div', { className: 'row' });
+  const up = el('button', { type: 'button', className: 'btn btn-ghost' }, 'Yukarı taşı');
+  const down = el('button', { type: 'button', className: 'btn btn-ghost' }, 'Aşağı taşı');
+  const del = el('button', { type: 'button', className: 'btn btn-danger' }, 'Kaldır');
+  up.addEventListener('click', () => { if (fs.previousElementSibling) { fs.parentNode.insertBefore(fs, fs.previousElementSibling); up.focus(); } });
+  down.addEventListener('click', () => { if (fs.nextElementSibling) { fs.parentNode.insertBefore(fs.nextElementSibling, fs); down.focus(); } });
+  del.addEventListener('click', () => {
+    if (!confirm('"' + legend.textContent + '" listeden kaldırılsın mı? Kaydetmeden siteye yansımaz.')) return;
+    fs.remove();
+  });
+  row.append(up, down, del);
+  fs.append(row);
+  fs.dataset.n = String(n);
+  return fs;
+}
+function renderProjects(list) {
+  const box = $('projList');
+  box.textContent = '';
+  list.forEach((p) => box.append(projectEditor(p)));
+}
+$('addProject').addEventListener('click', () => {
+  const fs = projectEditor({});
+  $('projList').append(fs);
+  fs.querySelector('input').focus();
+});
+const tagsOf = (v) => v.split(',').map((s) => s.trim()).filter(Boolean);
+$('saveProjects').addEventListener('click', (e) => {
+  const out = [];
+  let bad = null;
+  document.querySelectorAll('#projList fieldset.proj').forEach((fs) => {
+    const n = fs.dataset.n, v = (s) => $('p' + n + '-' + s).value.trim();
+    if (!v('trTitle')) { bad = bad || $('p' + n + '-trTitle'); return; }
+    const p = { cat: v('cat'), topic: $('p' + n + '-topic').value, tr: { title: v('trTitle'), desc: v('trDesc'), tags: tagsOf(v('trTags')) } };
+    if (v('enTitle')) p.en = { title: v('enTitle'), desc: v('enDesc'), tags: tagsOf(v('enTags')) };
+    out.push(p);
+  });
+  if (bad) { toast('Her çalışma alanının Türkçe başlığı olmalı.', true); bad.focus(); return; }
+  if (!out.length) { toast('En az bir çalışma alanı olmalı.', true); return; }
+  saveField('projects', out, e.currentTarget, 'Çalışma alanları kaydedildi. Sitede sayfa yenilenince görünür.');
+});
+</script>
+</body>
+</html>

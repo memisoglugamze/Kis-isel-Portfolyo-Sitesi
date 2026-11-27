@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Tek admin: Firebase Authentication'daki memisoglugamze@gmail.com hesabının UID'si.
+    // E-posta/şifre ile herkes hesap açabildiği için "giriş yapmış olmak" yetmez; UID kontrol edilir.
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == 'htvjoF7QtGRmG7b7wpKxHDA1Tb73';
+    }
+
+    // Site içeriği (durum, metinler, çalışma alanları): herkes okur, yalnızca admin yazar.
+    match /content/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // İletişim formu mesajları: herkes yalnızca geçerli yeni mesaj bırakabilir; okuma/güncelleme/silme admin'e özel.
+    match /messages/{id} {
+      allow create: if isValidMessage(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    function isValidMessage(d) {
+      return d.keys().hasOnly(['name', 'email', 'topic', 'message', 'lang', 'read', 'createdAt'])
+        && d.keys().hasAll(['name', 'email', 'message', 'createdAt'])
+        && d.name is string && d.name.size() >= 2 && d.name.size() <= 100
+        && d.email is string && d.email.size() <= 200 && d.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$')
+        && d.message is string && d.message.size() >= 10 && d.message.size() <= 5000
+        && (!('topic' in d) || (d.topic is string && d.topic.size() <= 100))
+        && (!('lang' in d) || d.lang in ['tr', 'en'])
+        && (!('read' in d) || d.read == false)
+        && d.createdAt is timestamp
+        && d.createdAt > request.time - duration.value(15, 'm')
+        && d.createdAt < request.time + duration.value(15, 'm');
+    }
+  }
+}
