@@ -17,6 +17,7 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 ## İçerik ve özellikler
 
 - Kariyer panosu: KPI kartları, kariyer zaman çizelgesi, deneyim dağılımı ve projeleri filtreleyen çalışma alanı grafiği
+- Graphify bilgi grafiği: araçlar, yetkinlikler, çalışma alanları, kurumlar, eğitim ve profiller arasındaki bağlantıları gösteren etkileşimli ağ; noktalar ilgili dış siteye ve sayfa bölümüne bağlanır
 - Türkçe/İngilizce dil seçeneği ve açık/koyu tema (seçimler tarayıcıda hatırlanır; tema ilk açılışta cihaz tercihine uyar)
 - Hakkımda, yetenekler, deneyim ve eğitim bölümleri
 - Kategori filtreleriyle çalışma alanları

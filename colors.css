@@ -15,6 +15,14 @@
   /* Dashboard chart series */
   --chart-fin: var(--c-100);
   --chart-bi: var(--c-400);
+  /* Graphify node groups (categorical, tuned to sit with the green palette) */
+  --g-me: var(--c-100);
+  --g-company: #8EB69B;
+  --g-area: #5FB3A9;
+  --g-tool: #D9C27E;
+  --g-skill: #A9B8E8;
+  --g-edu: #E3A08A;
+  --g-profile: #C9A6DB;
 }
 
 /* Light theme: same green palette, lightness scale inverted (950 = page background, 100 = text) */
@@ -30,4 +38,11 @@
   --danger: #B3261E;
   --chart-fin: #8EB69B;
   --chart-bi: #163832;
+  --g-me: var(--c-100);
+  --g-company: #2F6B56;
+  --g-area: #1F7A70;
+  --g-tool: #8A6A12;
+  --g-skill: #3F55A8;
+  --g-edu: #A9472C;
+  --g-profile: #7A4396;
 }

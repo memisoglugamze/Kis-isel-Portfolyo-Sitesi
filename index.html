@@ -80,8 +80,8 @@ header.site { position: fixed; inset: 0 0 auto 0; height: var(--header-h); z-ind
 header.site .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
 .logo { font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 .logo b { color: var(--c-400); font-weight: 600; }
-nav.main ul { display: flex; gap: var(--sp-2); }
-nav.main a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: var(--sp-4); border-radius: var(--radius); text-decoration: none; color: var(--text-muted); font-size: var(--fs-small); font-weight: 500; transition: background var(--dur-fast) ease-out, color var(--dur-fast) ease-out; }
+nav.main ul { display: flex; gap: var(--sp-1); }
+nav.main a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: var(--sp-3); white-space: nowrap; border-radius: var(--radius); text-decoration: none; color: var(--text-muted); font-size: var(--fs-small); font-weight: 500; transition: background var(--dur-fast) ease-out, color var(--dur-fast) ease-out; }
 nav.main a:hover { background: var(--c-800); color: var(--c-100); }
 nav.main a[aria-current="true"] { background: var(--c-800); color: var(--c-100); box-shadow: inset 0 -2px 0 var(--c-400); }
 .menu-btn { display: none; min-width: 44px; min-height: 44px; background: transparent; color: var(--c-100); border: 1px solid var(--c-700); border-radius: var(--radius); cursor: pointer; align-items: center; justify-content: center; }
@@ -159,6 +159,42 @@ nav.main .nav-tools { display: flex; gap: var(--sp-2); margin-left: var(--sp-2);
 .bar-track { grid-column: 1 / -1; height: 10px; background: var(--c-800); border-radius: 999px; }
 .bar-fill { display: block; height: 100%; background: var(--c-400); border-radius: 999px; transform: scaleX(0); transform-origin: left; transition: transform calc(var(--dur-mid) * 2) ease-out; transition-delay: calc(var(--i, 0) * 90ms); }
 .panel.in .g-bar, .panel.in .bar-fill { transform: scaleX(1); }
+
+/* graphify: knowledge graph */
+.graph-sec { background: var(--c-900); }
+.graph-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp-5); align-items: start; }
+.graph-canvas { background: var(--c-950); border: 1px solid var(--c-800); border-radius: var(--radius); overflow: hidden; }
+.graph-canvas svg { display: block; width: 100%; height: auto; }
+.gx-edge { stroke: var(--c-700); stroke-width: 1.2; transition: opacity var(--dur-fast) ease-out; }
+.gx-edge.is-near { stroke: var(--c-400); stroke-width: 2.2; }
+.gx-node { cursor: pointer; outline: none; transition: opacity var(--dur-fast) ease-out; }
+.gx-node .hit { fill: transparent; }
+.gx-node .dotc { stroke: var(--c-950); stroke-width: 2; }
+.gx-node text { fill: var(--c-100); font: 500 13px/1 var(--font-body); paint-order: stroke; stroke: var(--c-950); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.gx-node.grp-me text { font: 600 16px/1 var(--font-display); }
+.gx-node:hover .dotc, .gx-node:focus-visible .dotc { stroke: var(--c-400); stroke-width: 3; }
+.gx-node.is-active .dotc { stroke: var(--c-100); stroke-width: 3.5; }
+.graph-canvas.has-active .gx-node:not(.is-near), .graph-canvas.has-active .gx-edge:not(.is-near) { opacity: 0.15; }
+.grp-me .dotc, .dot.grp-me { fill: var(--g-me); background: var(--g-me); }
+.grp-company .dotc, .dot.grp-company { fill: var(--g-company); background: var(--g-company); }
+.grp-area .dotc, .dot.grp-area { fill: var(--g-area); background: var(--g-area); }
+.grp-tool .dotc, .dot.grp-tool { fill: var(--g-tool); background: var(--g-tool); }
+.grp-skill .dotc, .dot.grp-skill { fill: var(--g-skill); background: var(--g-skill); }
+.grp-edu .dotc, .dot.grp-edu { fill: var(--g-edu); background: var(--g-edu); }
+.grp-profile .dotc, .dot.grp-profile { fill: var(--g-profile); background: var(--g-profile); }
+.dot.grp-me, .dot.grp-company, .dot.grp-area, .dot.grp-tool, .dot.grp-skill, .dot.grp-edu, .dot.grp-profile { border-radius: 50%; }
+.graph-legend { margin-top: var(--sp-4); }
+.graph-info { background: var(--c-950); border: 1px solid var(--c-800); border-radius: var(--radius); padding: var(--sp-5); display: grid; gap: var(--sp-3); align-content: start; min-height: 100%; }
+.graph-info .gi-type { display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--text-muted); font-size: var(--fs-small); font-weight: 600; }
+.graph-info h3 { font-size: 1.375rem; }
+.graph-info p { color: var(--text-muted); font-size: var(--fs-small); }
+.graph-info .gi-sub { color: var(--c-400); font-size: var(--fs-small); font-weight: 600; margin-top: var(--sp-2); }
+.gi-links { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.gi-chip { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; padding-inline: var(--sp-3); background: var(--c-900); color: var(--c-100); border: 1px solid var(--c-700); border-radius: 999px; font: 500 var(--fs-small)/1.2 var(--font-body); cursor: pointer; text-align: left; transition: border-color var(--dur-fast) ease-out, background var(--dur-fast) ease-out; }
+.gi-chip:hover { border-color: var(--c-400); background: var(--c-800); }
+.gi-chip .dot { width: 10px; height: 10px; }
+.gi-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-2); }
+.gi-actions .btn { min-height: 44px; padding-inline: var(--sp-5); font-size: var(--fs-small); }
 
 /* about */
 .about { background: var(--c-900); }
@@ -291,12 +327,15 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
   .skill-grid, .proj-grid, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dash-grid { grid-template-columns: minmax(0, 1fr); }
+  .graph-layout { grid-template-columns: minmax(0, 1fr); }
   .hero-grid, .about-grid, .tl-grid, .contact-grid { grid-template-columns: minmax(0, 1fr); gap: var(--sp-7); }
   section { padding-block: var(--sp-8); }
 }
 @media (max-width: 767px) {
   .skill-grid, .proj-grid, .collab-grid, .steps, .kpis { grid-template-columns: minmax(0, 1fr); }
   .panel { padding: var(--sp-5); }
+  .gx-node text { font-size: 17px; stroke-width: 5px; }
+  .gx-node.grp-me text { font-size: 20px; }
   .g-row, .g-axis { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .g-axis > span:first-child { display: none; }
   .g-ticks span:nth-child(even) { display: none; }
@@ -326,6 +365,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
         <li><a href="#skills" data-i18n="nav.skills">Yetenekler</a></li>
         <li><a href="#experience" data-i18n="nav.experience">Deneyim</a></li>
         <li><a href="#projects" data-i18n="nav.projects">Projeler</a></li>
+        <li><a href="#graph" lang="en">Graphify</a></li>
         <li><a href="#collaborate" data-i18n="nav.collab">Birlikte Çalışalım</a></li>
         <li><a href="#contact" data-i18n="nav.contact">İletişim</a></li>
         <li class="nav-tools">
@@ -503,6 +543,25 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     </div>
   </section>
 
+  <section class="graph-sec" id="graph">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow" lang="en">Graphify</p>
+        <h2 data-i18n="graph.title">Bilgi grafiğim</h2>
+        <p data-i18n="graph.intro">Araçlarım, yetkinliklerim, çalışma alanlarım ve kurumlar arasındaki bağlantılar. Bir noktaya tıkla, bağlantılarını ve ilgili siteyi gör.</p>
+      </div>
+      <div class="graph-layout reveal">
+        <div>
+          <div class="graph-canvas" id="graphCanvas">
+            <svg id="graphSvg" role="group" aria-label="Bilgi grafiği" data-i18n-attr="aria-label:graph.aria"></svg>
+          </div>
+          <ul class="legend graph-legend" id="graphLegend"></ul>
+        </div>
+        <aside class="graph-info" id="graphInfo" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
   <section id="collaborate">
     <div class="wrap">
       <div class="sec-head reveal">
@@ -627,7 +686,16 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'err.message': 'Mesajın en az 10 karakter olmalı.',
       'send': 'Gönder', 'sending': 'Gönderiliyor…',
       'sent': 'Teşekkürler! Mesajın bana ulaştı, en kısa sürede dönüş yapacağım.',
-      'sendFail': 'Mesajın gönderilemedi. Biraz sonra tekrar dene ya da bana doğrudan e-posta gönder.'
+      'sendFail': 'Mesajın gönderilemedi. Biraz sonra tekrar dene ya da bana doğrudan e-posta gönder.',
+      'graph.pick': 'Bir nokta seç',
+      'graph.pickHint': 'Grafikteki bir noktaya tıkla ya da Tab tuşuyla seç. Bağlantıları ve ilgili site burada görünür.',
+      'graph.stats': function (n, e) { return n + ' nokta · ' + e + ' bağlantı'; },
+      'graph.links': function (n) { return n + ' bağlantı'; },
+      'graph.nodeAria': function (label, type, n) { return label + ', ' + type + ', ' + n + ' bağlantı'; },
+      'graph.open': 'Siteyi aç', 'graph.openAria': function (label) { return label + ' sitesini aç (yeni sekmede)'; },
+      'graph.mail': 'E-posta gönder', 'graph.goto': 'Bölüme git', 'graph.clear': 'Seçimi temizle',
+      'gtype.me': 'Kişi', 'gtype.company': 'Kurum', 'gtype.area': 'Çalışma alanı', 'gtype.tool': 'Araç',
+      'gtype.skill': 'Yetkinlik', 'gtype.edu': 'Eğitim', 'gtype.profile': 'Profil'
     },
     en: {
       'a.home': 'Home', 'a.skip': 'Skip to content', 'a.nav': 'Main navigation', 'a.photo': 'Profile photo of Gamze İbrahimağaoğlu',
@@ -711,7 +779,19 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'err.message': 'Your message must be at least 10 characters.',
       'send': 'Send', 'sending': 'Sending…',
       'sent': 'Thank you! Your message has reached me and I’ll get back to you as soon as possible.',
-      'sendFail': 'Your message couldn’t be sent. Please try again later or email me directly.'
+      'sendFail': 'Your message couldn’t be sent. Please try again later or email me directly.',
+      'graph.title': 'My knowledge graph',
+      'graph.intro': 'Connections between my tools, skills, work areas and organizations. Click a point to see its connections and related site.',
+      'graph.aria': 'Knowledge graph',
+      'graph.pick': 'Select a point',
+      'graph.pickHint': 'Click a point in the graph or select it with the Tab key. Its connections and related site appear here.',
+      'graph.stats': function (n, e) { return n + ' points · ' + e + ' connections'; },
+      'graph.links': function (n) { return n + (n === 1 ? ' connection' : ' connections'); },
+      'graph.nodeAria': function (label, type, n) { return label + ', ' + type + ', ' + n + (n === 1 ? ' connection' : ' connections'); },
+      'graph.open': 'Open site', 'graph.openAria': function (label) { return 'Open ' + label + ' site (new tab)'; },
+      'graph.mail': 'Send email', 'graph.goto': 'Go to section', 'graph.clear': 'Clear selection',
+      'gtype.me': 'Person', 'gtype.company': 'Organization', 'gtype.area': 'Work area', 'gtype.tool': 'Tool',
+      'gtype.skill': 'Skill', 'gtype.edu': 'Education', 'gtype.profile': 'Profile'
     }
   };
   var lang = root.lang === 'en' ? 'en' : 'tr';
@@ -937,6 +1017,192 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     });
   }
 
+  // Graphify: bilgi grafiği. Düğümler sitedeki bilgilerden gelir; url = dış site, sec = sayfadaki bölüm
+  var LINKEDIN = 'https://www.linkedin.com/in/gamze-ibrahimağaoğlu-794b13b6';
+  var GX_NODES = [
+    { id: 'me', g: 'me', label: 'Gamze İbrahimağaoğlu', detail: 'BI & Data Warehouse Developer', sec: '#about' },
+    { id: 'digiturk', g: 'company', label: 'Digiturk', detail: 'BI & Data Warehouse Developer · Financial Control Specialist', url: 'https://www.digiturk.com.tr/', sec: '#experience' },
+    { id: 'rossmann', g: 'company', label: 'Rossmann Türkiye', detail: 'Financial Control Assistant Specialist', url: 'https://www.rossmann.com.tr/', sec: '#experience' },
+    { id: 'aydin', g: 'company', label: 'Turgut Aydın Holding', detail: 'Internal Control Assistant Specialist', url: 'https://aydin.com/', sec: '#experience' },
+    { id: 'bilgi', g: 'edu', label: { tr: 'İstanbul Bilgi Üniversitesi', en: 'Istanbul Bilgi University' }, short: { tr: 'Bilgi Üniversitesi', en: 'Bilgi University' }, detail: { tr: 'Yüksek Lisans, Yönetim Bilişim Sistemleri (MIS)', en: 'Master’s degree, Management Information Systems (MIS)' }, url: 'https://www.bilgi.edu.tr/', sec: '#experience' },
+    { id: 'ktu', g: 'edu', label: { tr: 'Karadeniz Teknik Üniversitesi', en: 'Karadeniz Technical University' }, short: { tr: 'KTÜ', en: 'KTU' }, detail: { tr: 'Lisans, İşletme', en: 'Bachelor’s degree, Business Administration' }, url: 'https://www.ktu.edu.tr/', sec: '#experience' },
+    { id: 'linkedin', g: 'profile', label: 'LinkedIn', url: LINKEDIN, sec: '#contact' },
+    { id: 'github', g: 'profile', label: 'GitHub', detail: 'github.com/memisoglugamze', url: 'https://github.com/memisoglugamze', sec: '#contact' },
+    { id: 'email', g: 'profile', label: { tr: 'E-posta', en: 'Email' }, detail: 'memisoglugamze@gmail.com', url: 'mailto:memisoglugamze@gmail.com', sec: '#contact' },
+    { id: 'a1', g: 'area', proj: 0, label: { tr: 'DWH Tasarımı', en: 'DWH Design' }, sec: '#projects' },
+    { id: 'a2', g: 'area', proj: 1, label: 'ETL (ODI)', sec: '#projects' },
+    { id: 'a3', g: 'area', proj: 2, label: { tr: 'Performans', en: 'Performance' }, sec: '#projects' },
+    { id: 'a4', g: 'area', proj: 3, label: { tr: 'Veri Kalitesi', en: 'Data Quality' }, sec: '#projects' },
+    { id: 'a5', g: 'area', proj: 4, label: { tr: 'Raporlama', en: 'Reporting' }, sec: '#projects' },
+    { id: 'a6', g: 'area', proj: 5, label: { tr: 'Yönetişim & Güvenlik', en: 'Governance & Security' }, sec: '#projects' },
+    { id: 'sql', g: 'tool', label: 'SQL', sec: '#skills' },
+    { id: 'db', g: 'tool', label: { tr: 'Veritabanları', en: 'Databases' }, sec: '#skills' },
+    { id: 'odi', g: 'tool', label: 'ODI', detail: 'Oracle Data Integrator', url: 'https://www.oracle.com/middleware/technologies/data-integrator.html', sec: '#skills' },
+    { id: 'powerbi', g: 'tool', label: 'Power BI', url: 'https://www.microsoft.com/power-platform/products/power-bi', sec: '#skills' },
+    { id: 'qlik', g: 'tool', label: 'Qlik Sense', url: 'https://www.qlik.com/us/products/qlik-sense', sec: '#skills' },
+    { id: 'modeling', g: 'skill', label: { tr: 'Veri Modelleme', en: 'Data Modeling' }, sec: '#skills' },
+    { id: 'ardwh', g: 'skill', label: 'Analytics-Ready DWH', sec: '#skills' },
+    { id: 'anomaly', g: 'skill', label: { tr: 'Anomali Tespiti', en: 'Anomaly Detection' }, detail: { tr: 'Veri Kalitesi & Anomali Tespiti', en: 'Data Quality & Anomaly Detection' }, sec: '#skills' },
+    { id: 'rca', g: 'skill', label: { tr: 'Kök Neden Analizi', en: 'Root Cause Analysis' }, sec: '#skills' },
+    { id: 'governance', g: 'skill', label: { tr: 'Veri Yönetişimi', en: 'Data Governance' }, sec: '#skills' },
+    { id: 'security', g: 'skill', label: { tr: 'Veri Güvenliği', en: 'Data Security' }, detail: { tr: 'Veri Güvenliği & Yetkilendirme', en: 'Data Security & Access Control' }, sec: '#skills' },
+    { id: 'finance', g: 'skill', label: { tr: 'Finansal Kontrol', en: 'Financial Control' }, detail: { tr: 'Finansal Kontrol & İç Denetim', en: 'Financial Control & Internal Audit' }, sec: '#skills' }
+  ];
+  var GX_EDGES = [
+    ['me', 'digiturk'], ['me', 'rossmann'], ['me', 'aydin'], ['me', 'bilgi'], ['me', 'ktu'],
+    ['me', 'linkedin'], ['me', 'github'], ['me', 'email'],
+    ['digiturk', 'a1'], ['digiturk', 'a2'], ['digiturk', 'a3'], ['digiturk', 'a4'], ['digiturk', 'a5'], ['digiturk', 'a6'],
+    ['a1', 'modeling'], ['a1', 'ardwh'], ['a2', 'odi'], ['a2', 'sql'], ['a3', 'sql'], ['a3', 'db'],
+    ['a4', 'anomaly'], ['a4', 'rca'], ['a5', 'powerbi'], ['a5', 'qlik'], ['a6', 'governance'], ['a6', 'security'],
+    ['finance', 'digiturk'], ['finance', 'rossmann'], ['finance', 'aydin']
+  ];
+  var GX_GROUPS = ['me', 'company', 'area', 'tool', 'skill', 'edu', 'profile'];
+  var gxById = {};
+  GX_NODES.forEach(function (n) { gxById[n.id] = n; });
+  function gxText(v) { return v == null ? '' : (typeof v === 'string' ? v : (v[lang] || v.tr)); }
+  function gxLabel(n) { return gxText(n.label); }
+  function gxDetail(n) { return n.proj != null ? P(PROJECTS[n.proj]).title : gxText(n.detail); }
+  function gxNeighbors(id) {
+    return GX_EDGES.filter(function (e) { return e[0] === id || e[1] === id; })
+      .map(function (e) { return gxById[e[0] === id ? e[1] : e[0]]; });
+  }
+
+  // Radyal yerleşim: [açı (derece, 0 = sağ), halka]. Sağda Digiturk → çalışma alanları → araç/yetkinlik; solda diğer kurumlar, okullar, profiller.
+  // Mobilde 90° döndürülür (sağ taraf aşağı gelir). Yeni düğüm eklenirse buraya da konum ver.
+  var GX_POLAR = {
+    me: [0, 0], digiturk: [0, 0.4],
+    a1: [-75, 0.68], a2: [-45, 0.68], a3: [-15, 0.68], a4: [15, 0.68], a5: [45, 0.68], a6: [75, 0.68],
+    modeling: [-88, 1], ardwh: [-68, 1], odi: [-57, 1], sql: [-30, 1], db: [-10, 1], anomaly: [8, 1], rca: [24, 1],
+    powerbi: [40, 1], qlik: [56, 1], governance: [70, 1], security: [88, 1],
+    aydin: [-112, 0.66], rossmann: [-132, 0.66], finance: [-100, 0.98],
+    linkedin: [-155, 0.66], github: [-175, 0.66], email: [165, 0.66], bilgi: [145, 0.66], ktu: [125, 0.66]
+  };
+  var gxLayouts = {};
+  function gxLayout(W, H, rotate) {
+    var key = W + 'x' + H;
+    if (gxLayouts[key]) return gxLayouts[key];
+    var cx = W / 2, cy = H / 2, rx = W * (rotate ? 0.18 : 0.36), ry = H * (rotate ? 0.42 : 0.43), pos = {};
+    GX_NODES.forEach(function (n) {
+      var pr = GX_POLAR[n.id], a = (pr[0] + (rotate ? 90 : 0)) * Math.PI / 180;
+      pos[n.id] = { x: cx + Math.cos(a) * rx * pr[1], y: cy + Math.sin(a) * ry * pr[1] };
+    });
+    return (gxLayouts[key] = pos);
+  }
+
+  var gxCanvas = document.getElementById('graphCanvas');
+  var gxSvg = document.getElementById('graphSvg');
+  var gxInfoEl = document.getElementById('graphInfo');
+  var gxSelected = null;
+  var gxNodeEls = {}, gxEdgeEls = [];
+  var gxMobile = window.matchMedia('(max-width: 767px)');
+  function svgEl(tag, attrs) {
+    var e = document.createElementNS(SVG_NS, tag);
+    Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    return e;
+  }
+  function gxHighlight(id) {
+    var near = {};
+    if (id) { near[id] = true; gxNeighbors(id).forEach(function (m) { near[m.id] = true; }); }
+    gxCanvas.classList.toggle('has-active', !!id);
+    Object.keys(gxNodeEls).forEach(function (k) {
+      gxNodeEls[k].classList.toggle('is-near', !!near[k]);
+      gxNodeEls[k].classList.toggle('is-active', k === id);
+    });
+    gxEdgeEls.forEach(function (x) { x.el.classList.toggle('is-near', !!id && (x.a === id || x.b === id)); });
+  }
+  function gxSelect(id, focus) {
+    gxSelected = id;
+    Object.keys(gxNodeEls).forEach(function (k) { gxNodeEls[k].setAttribute('aria-pressed', String(k === id)); });
+    gxHighlight(id);
+    gxRenderInfo();
+    if (focus && id) gxNodeEls[id].focus({ preventScroll: true });
+  }
+  function gxRenderInfo() {
+    gxInfoEl.textContent = '';
+    if (!gxSelected) {
+      gxInfoEl.append(el('h3', null, t('graph.pick')), el('p', null, t('graph.pickHint')),
+        el('p', 'gi-sub', t('graph.stats')(GX_NODES.length, GX_EDGES.length)));
+      return;
+    }
+    var n = gxById[gxSelected];
+    var type = el('span', 'gi-type');
+    var dot = el('span', 'dot grp-' + n.g); dot.setAttribute('aria-hidden', 'true');
+    type.append(dot, t('gtype.' + n.g));
+    gxInfoEl.append(type, el('h3', null, gxLabel(n)));
+    if (gxDetail(n)) gxInfoEl.appendChild(el('p', null, gxDetail(n)));
+    var nb = gxNeighbors(n.id);
+    gxInfoEl.appendChild(el('p', 'gi-sub', t('graph.links')(nb.length)));
+    var links = el('div', 'gi-links');
+    nb.forEach(function (m) {
+      var chip = el('button', 'gi-chip'); chip.type = 'button';
+      var d = el('span', 'dot grp-' + m.g); d.setAttribute('aria-hidden', 'true');
+      chip.append(d, gxLabel(m));
+      chip.addEventListener('click', function () { gxSelect(m.id, true); });
+      links.appendChild(chip);
+    });
+    gxInfoEl.appendChild(links);
+    var actions = el('div', 'gi-actions');
+    if (n.url) {
+      var mail = n.url.indexOf('mailto:') === 0;
+      var a = el('a', 'btn btn-primary', mail ? t('graph.mail') : t('graph.open') + ' ↗');
+      a.href = n.url;
+      if (!mail) { a.target = '_blank'; a.rel = 'noopener noreferrer'; a.setAttribute('aria-label', t('graph.openAria')(gxLabel(n))); }
+      actions.appendChild(a);
+    }
+    if (n.sec) { var s = el('a', 'btn btn-ghost', t('graph.goto')); s.href = n.sec; actions.appendChild(s); }
+    var clear = el('button', 'btn btn-ghost', t('graph.clear')); clear.type = 'button';
+    clear.addEventListener('click', function () { var prev = gxSelected; gxSelect(null); if (gxNodeEls[prev]) gxNodeEls[prev].focus({ preventScroll: true }); });
+    actions.appendChild(clear);
+    gxInfoEl.appendChild(actions);
+  }
+  function renderGraph() {
+    var W = gxMobile.matches ? 600 : 960, H = gxMobile.matches ? 1000 : 620;
+    var pos = gxLayout(W, H, gxMobile.matches), cx = W / 2;
+    gxSvg.textContent = '';
+    gxSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    gxNodeEls = {}; gxEdgeEls = [];
+    var edgeG = svgEl('g', { 'aria-hidden': 'true' });
+    GX_EDGES.forEach(function (e) {
+      var line = svgEl('line', { 'class': 'gx-edge', x1: pos[e[0]].x, y1: pos[e[0]].y, x2: pos[e[1]].x, y2: pos[e[1]].y });
+      edgeG.appendChild(line);
+      gxEdgeEls.push({ el: line, a: e[0], b: e[1] });
+    });
+    gxSvg.appendChild(edgeG);
+    GX_NODES.forEach(function (n) {
+      var p = pos[n.id], r = n.g === 'me' ? 14 : (n.g === 'company' || n.g === 'area' ? 9 : 7);
+      var g = svgEl('g', { 'class': 'gx-node grp-' + n.g, tabindex: '0', role: 'button', 'aria-pressed': String(n.id === gxSelected),
+        'aria-label': t('graph.nodeAria')(gxLabel(n), t('gtype.' + n.g), gxNeighbors(n.id).length) });
+      g.append(svgEl('circle', { 'class': 'hit', cx: p.x, cy: p.y, r: 22 }), svgEl('circle', { 'class': 'dotc', cx: p.x, cy: p.y, r: r }));
+      var text = svgEl('text', n.g === 'me'
+        ? { x: p.x, y: gxMobile.matches ? p.y - r - 12 : p.y + r + 20, 'text-anchor': 'middle' }
+        : { x: p.x < cx ? p.x - r - 6 : p.x + r + 6, y: p.y + 4, 'text-anchor': p.x < cx ? 'end' : 'start' });
+      text.textContent = gxMobile.matches && n.short ? gxText(n.short) : gxLabel(n);
+      g.appendChild(text);
+      g.addEventListener('click', function () { gxSelect(gxSelected === n.id ? null : n.id); });
+      g.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); gxSelect(gxSelected === n.id ? null : n.id); }
+      });
+      g.addEventListener('pointerenter', function () { gxHighlight(n.id); });
+      g.addEventListener('pointerleave', function () { gxHighlight(gxSelected); });
+      g.addEventListener('focus', function () { gxHighlight(n.id); });
+      g.addEventListener('blur', function () { gxHighlight(gxSelected); });
+      gxSvg.appendChild(g);
+      gxNodeEls[n.id] = g;
+    });
+    var legend = document.getElementById('graphLegend');
+    legend.textContent = '';
+    GX_GROUPS.forEach(function (k) {
+      var li = el('li');
+      var d = el('span', 'dot grp-' + k); d.setAttribute('aria-hidden', 'true');
+      li.append(d, t('gtype.' + k));
+      legend.appendChild(li);
+    });
+    gxHighlight(gxSelected);
+    gxRenderInfo();
+  }
+  gxSvg.addEventListener('keydown', function (e) { if (e.key === 'Escape' && gxSelected) gxSelect(null); });
+  gxMobile.addEventListener('change', renderGraph);
+
   // Mobil menü (1199px altında)
   var menuBtn = document.getElementById('menuBtn');
   var nav = document.getElementById('nav');
@@ -991,6 +1257,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
     });
     renderProjects();
     renderDashboard();
+    renderGraph();
     setMenu(menuBtn.getAttribute('aria-expanded') === 'true');
     applyTheme();
   }

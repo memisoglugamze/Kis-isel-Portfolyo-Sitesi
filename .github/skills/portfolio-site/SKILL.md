@@ -32,7 +32,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 - İstisnalar `<meta name="theme-color">` ve `<link rel="icon">` içindeki SVG favicon'dur. `theme-color` tema değişince script tarafından `--c-950` değerine eşitlenir; palet değişirse HTML'deki ilk değeri ve favicon'u koyu temadaki `--c-950` / `--c-400` ile eşitle.
 - Boşluk için `--sp-1`…`--sp-9`, yazı boyutu için `--fs-*`, köşe için `--radius`, süre için `--dur-fast` / `--dur-mid` kullan.
 - Başlıklar `--font-display`, gövde metni `--font-body` kullanır.
-- Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür. Üst menü `1199px` altında hamburger menüye döner (JS'teki `mq` ile aynı); menüye öğe eklersen 1200px'te iki dilde de tek satıra sığdığını kontrol et.
+- Kırılım noktaları: `1023px` (tablet) ve `767px` (mobil). Yeni ızgaraları bu iki sorguda da tek/iki sütuna düşür. Üst menü `1199px` altında hamburger menüye döner (JS'teki `mq` ile aynı); menüye öğe eklersen 1200px'te iki dilde de tek satıra sığdığını kontrol et (şu an sınırda: 1200px'te Türkçe menüde yaklaşık 20px, İngilizcede 35px boşluk var).
 - Animasyonlarda yalnızca `transform` ve `opacity` kullan; `prefers-reduced-motion` bloğu korunmalı.
 
 ## Erişilebilirlik
@@ -50,6 +50,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 - Proje/çalışma alanı kartları HTML'de değil, script içindeki `PROJECTS` dizisinde tutulur. Her öğe `cat`, `topic` ve `tr` / `en` alt nesnelerinde `title`, `desc`, `tags` (Yetenekler bölümündeki araç/yetkinliklerden) alanlarına sahiptir. `cat` değeri bir `.filter` düğmesinin `data-filter` değeriyle, `CAT_ICONS` anahtarıyla ve `cat.<cat>` çeviri anahtarıyla eşleşmeli; yeni kategori eklenirse filtre düğmesini, ikonunu ve çevirisini de ekle. Filtre sayaçları otomatik hesaplanır.
 - "Birlikte çalışalım" kartlarındaki ve `PROJECTS` öğelerindeki `data-topic` / `topic` değerleri, iletişim formundaki `#topic` seçeneklerinin `value` değeriyle birebir aynı olmalı (değerler Türkçe sabit anahtardır; görünen metin dile göre çevrilir). Tıklamalar `document` üzerinde yetkilendirmeyle dinlenir; dinamik öğelere ayrıca olay bağlama.
 - Pano (`#dashboard`) verileri script'teki `CAREER` dizisinden (`role`, `org`, `start`/`end` `YYYY-MM`, `end: null` = günümüz, `track: 'fin' | 'bi'`) ve `PROJECTS` dizisinden hesaplanır. Deneyim bölümü değişirse `CAREER` dizisini de güncelle. KPI'lardaki HTML değerleri yalnızca JS kapalıyken görünen yedek değerlerdir. Uydurma metrik ekleme; yeni rakamları kullanıcıdan al.
+- Graphify (`#graph`) bilgi grafiği kütüphanesiz SVG'dir. Düğümler `GX_NODES` (`id`, `g` grup, `label`/`detail` metin ya da `{tr, en}`, mobil için isteğe bağlı `short`, alanlarda `proj` = `PROJECTS` sırası, `url` dış site, `sec` sayfa bölümü), bağlantılar `GX_EDGES`, konumlar `GX_POLAR` (`[açı, halka]`; mobilde 90° döner) içindedir. Grup renkleri `colors.css` içindeki `--g-*` değişkenleridir. Yeni düğüm eklerken üçünü de güncelle, yalnızca sitede olan bilgiyi kullan, dış adresin açıldığını kontrol et ve masaüstü ile 375px'te etiketlerin taşmadığını/çakışmadığını doğrula. Yeni proje, araç veya yetkinlik eklenirse grafiğe de ekle.
 - DOM'a içerik eklerken `innerHTML` yerine `textContent` / `createElement` kullan.
 
 ## İletişim formu
