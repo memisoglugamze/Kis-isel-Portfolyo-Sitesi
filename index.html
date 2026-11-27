@@ -687,6 +687,8 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'send': 'Gönder', 'sending': 'Gönderiliyor…',
       'sent': 'Teşekkürler! Mesajın bana ulaştı, en kısa sürede dönüş yapacağım.',
       'sendFail': 'Mesajın gönderilemedi. Biraz sonra tekrar dene ya da bana doğrudan e-posta gönder.',
+      'mail.subject': 'Portfolyo sitesinden mesaj',
+      'mailOpened': 'E-posta uygulaman mesajınla birlikte açıldı; göndermek için oradan "Gönder"e bas. Uygulama açılmadıysa memisoglugamze@gmail.com adresine doğrudan yazabilirsin.',
       'graph.pick': 'Bir nokta seç',
       'graph.pickHint': 'Grafikteki bir noktaya tıkla ya da Tab tuşuyla seç. Bağlantıları ve ilgili site burada görünür.',
       'graph.stats': function (n, e) { return n + ' nokta · ' + e + ' bağlantı'; },
@@ -780,6 +782,8 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       'send': 'Send', 'sending': 'Sending…',
       'sent': 'Thank you! Your message has reached me and I’ll get back to you as soon as possible.',
       'sendFail': 'Your message couldn’t be sent. Please try again later or email me directly.',
+      'mail.subject': 'Message from the portfolio site',
+      'mailOpened': 'Your email app has opened with your message; press “Send” there to send it. If it didn’t open, you can write to memisoglugamze@gmail.com directly.',
       'graph.title': 'My knowledge graph',
       'graph.intro': 'Connections between my tools, skills, work areas and organizations. Click a point to see its connections and related site.',
       'graph.aria': 'Knowledge graph',
@@ -1314,6 +1318,15 @@ footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-betwe
       statusEl.classList.toggle('is-error', isError);
       statusEl.hidden = false;
       statusEl.focus();
+    }
+    if (!/\.netlify\.app$/.test(location.hostname)) {
+      // Netlify dışı yayın (Firebase vb.): Netlify Forms yok; ziyaretçinin e-posta uygulamasını doldurulmuş mesajla aç
+      var topicSel = document.getElementById('topic');
+      var subject = topicSel.value ? topicSel.options[topicSel.selectedIndex].text : t('mail.subject');
+      var body = form.elements.message.value.trim() + '\n\n— ' + form.elements.name.value.trim() + ' <' + form.elements.email.value.trim() + '>';
+      location.href = 'mailto:memisoglugamze@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      showStatus(t('mailOpened'), false);
+      return;
     }
     // Netlify Forms gönderimi; form yayın sırasında HTML'deki data-netlify özniteliğinden algılanır
     fetch('/', {

@@ -1,0 +1,24 @@
+{
+  "hosting": {
+    "site": "gamzeagaoglu",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "README.md",
+      "**/.*",
+      "**/.*/**",
+      "**/node_modules/**",
+      "firebase-debug.log"
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(html|css)",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      }
+    ]
+  }
+}

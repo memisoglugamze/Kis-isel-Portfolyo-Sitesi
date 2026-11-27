@@ -26,13 +26,28 @@ Ardından tarayıcıda [http://localhost:8000](http://localhost:8000) adresini a
 - İletişim formu için temel doğrulama ve iş birliği konusunu forma aktarma
 - Bağlantı paylaşım önizlemesi için Open Graph etiketleri ve favicon
 
-**İletişim formu Netlify Forms ile çalışır.** Gelen mesajlar Netlify panelinde **Forms → contact** altında görünür; e-posta bildirimi buradan açılabilir. Yerel sunucuda gönderim yapılamaz, form hata mesajı gösterir.
+**İletişim formu:** Netlify'da (`*.netlify.app`) Netlify Forms ile gönderilir; gelen mesajlar Netlify panelinde **Forms → contact** altında görünür. Diğer adreslerde (Firebase, yerel sunucu) "Gönder" butonu ziyaretçinin e-posta uygulamasını doldurulmuş mesajla açar.
+
+## Yayın
+
+Site iki yerde yayındadır:
+
+- **Netlify:** https://gamzeagaoglu.netlify.app — `main` dalına yapılan her push otomatik yayınlanır.
+- **Firebase Hosting:** https://gamzeagaoglu.web.app — Firebase projesi `kisiselportfolyositesi`, site `gamzeagaoglu`. Otomatik değildir; değişiklikten sonra elle yayınlanır:
+
+```bash
+firebase login          # memisoglugamze@gmail.com
+firebase deploy --only hosting
+```
+
+Ayarlar `firebase.json` ve `.firebaserc` dosyalarındadır. Yalnızca site dosyaları yayınlanır; gizli dosya ve klasörler (`.git`, `.github`) ile README ve ayar dosyaları hariç tutulur.
 
 ## Dosyalar
 
 - `index.html` — Sayfa içeriği, stiller ve etkileşimler
 - `colors.css` — Ortak renk paleti
 - `profile.jpeg` — Hero bölümündeki yuvarlak profil fotoğrafı (680×680)
+- `firebase.json`, `.firebaserc` — Firebase Hosting ayarları
 
 ## Özelleştirme
 

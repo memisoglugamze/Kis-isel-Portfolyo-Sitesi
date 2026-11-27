@@ -5,7 +5,7 @@ description: Gamze İbrahimağaoğlu'nun Türkçe/İngilizce, açık/koyu temal�
 
 # Portfolyo sitesi
 
-Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını kök dizinden yayınlar; build komutu yoktur.
+Build adımı olmayan, tek sayfalık statik bir site. İki yerde yayınlanır: Netlify `main` dalını kök dizinden otomatik yayınlar (https://gamzeagaoglu.netlify.app); Firebase Hosting'e elle `firebase deploy` ile yayınlanır (https://gamzeagaoglu.web.app). Build komutu yoktur.
 
 ## Dosyalar
 
@@ -55,7 +55,7 @@ Build adımı olmayan, tek sayfalık statik bir site. Netlify `main` dalını k�
 
 ## İletişim formu
 
-Form Netlify Forms ile gönderilir (`name="contact"`, `data-netlify="true"`, `bot-field` honeypot). Script `fetch('/')` ile urlencoded POST yapar; `form-name` gizli alanı kaldırılmamalı. Yeni alanlar statik HTML'de `name` ile tanımlanmalı, yoksa Netlify kaydetmez. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır. Gönderim hatasında `#formStatus` öğesine `is-error` sınıfı eklenir. Yerel sunucuda POST desteklenmediği için hata mesajı görmek normaldir.
+Netlify'da (`location.hostname` `.netlify.app` ile bitiyorsa) form Netlify Forms ile gönderilir (`name="contact"`, `data-netlify="true"`, `bot-field` honeypot). Script `fetch('/')` ile urlencoded POST yapar; `form-name` gizli alanı kaldırılmamalı. Yeni alanlar statik HTML'de `name` ile tanımlanmalı, yoksa Netlify kaydetmez. Diğer tüm adreslerde (Firebase, yerel sunucu) Netlify Forms yoktur; "Gönder" doldurulmuş bir `mailto:` bağlantısı açar ve `mailOpened` mesajını gösterir. Netlify'a özel alan adı bağlanırsa bu hostname kontrolünü de güncelle. Doğrulama kuralları `rules` nesnesinde; hata metinleri `#<alan>Err` öğelerine yazılır. Gönderim hatasında `#formStatus` öğesine `is-error` sınıfı eklenir.
 
 ## Doğrulama
 
@@ -72,3 +72,5 @@ python3 -m http.server 8000
 - Uzak depo: `https://github.com/memisoglugamze/Kis-isel-Portfolyo-Sitesi.git`, dal `main`.
 - Varsayılan git kimliği iş hesabıdır ve bu depoya yazamaz. Push için kişisel `memisoglugamze` hesabı gerekir; global git ayarlarını veya VS Code oturumunu değiştirme.
 - `main` dalına yapılan her push Netlify'da otomatik yayına çıkar.
+- Firebase Hosting otomatik değildir: proje `kisiselportfolyositesi`, site `gamzeagaoglu` (`.firebaserc`, `firebase.json`). Değişiklikten sonra kişisel `memisoglugamze@gmail.com` hesabıyla `firebase login` yapılmış CLI ile `firebase deploy --only hosting` çalıştır; kullanıcı istemedikçe yalnızca Netlify'a push yetmez, iki siteyi de güncel tut. Bu makinede global Node/Firebase CLI yoktur ve Apple Silicon'da Firebase'in tek dosyalık CLI'ı çalışmaz; geçici bir klasöre taşınabilir Node indirip `firebase-tools`'u oraya kur, sisteme kurulum yapma.
+- `firebase.json` içindeki `ignore` listesindeki `**/.*/**` kuralı `.git` ve `.github` klasörlerinin yayınlanmasını engeller; kaldırma. Yayından sonra `https://gamzeagaoglu.web.app/.git/HEAD` adresinin 404 verdiğini kontrol et. Yayın sırasında oluşan `firebase-debug.log` dosyasını sil (`.gitignore`'da).
